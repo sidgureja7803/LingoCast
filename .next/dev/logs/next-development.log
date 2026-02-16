@@ -1,0 +1,519 @@
+[00:00:07.309] Server  LOG     
+[00:00:07.309] Server  LOG        We detected TypeScript in your project and reconfigured your tsconfig.json file for you.
+[00:00:07.309] Server  LOG        The following mandatory changes were made to your tsconfig.json:
+
+[00:00:07.309] Server  LOG        	- jsx was set to react-jsx (next.js uses the React automatic runtime)
+[00:00:07.309] Server  LOG     
+[00:00:07.438] Server  LOG      ✓ Ready in 7.1s
+[00:00:33.657] Server  LOG      ○ Compiling / ...
+[00:00:37.452] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:37.599] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <ScrollAndFocusHandler segmentPath={[...]}>
+      <InnerScrollAndFocusHandler segmentPath={[...]} focusAndScrollRef={{apply:false, ...}}>
+        <ErrorBoundary errorComponent={undefined} errorStyles={undefined} errorScripts={undefined}>
+          <LoadingBoundary name="/" loading={null}>
+            <HTTPAccessFallbackBoundary notFound={<SegmentViewNode>} forbidden={undefined} unauthorized={undefined}>
+              <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<SegmentViewNode>} forbidden={undefined} ...>
+                <RedirectBoundary>
+                  <RedirectErrorBoundary router={{...}}>
+                    <InnerLayoutRouter url="/" tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} ...>
+                      <SegmentViewNode type="page" pagePath="/Desktop/L...">
+                        <SegmentTrieNode>
+                        <ClientPageRoot Component={function Home} serverProvidedParams={{...}}>
+                          <Home params={Promise} searchParams={Promise}>
+                            <div>
+                            <LandingPage onGetStarted={function onGetStarted}>
+                              <div
++                               className="relative min-h-screen overflow-hidden"
+-                               className="jsx-8de691015a1e637d relative min-h-screen overflow-hidden"
+                              >
+                                <div
++                                 className="fixed inset-0 -z-10"
+-                                 className="jsx-8de691015a1e637d fixed inset-0 -z-10"
+                                >
+                                  <div
++                                   className="absolute inset-0 bg-gradient-to-br from-purple-50 via-blue-50 to-pink-5..."
+-                                   className="jsx-8de691015a1e637d absolute inset-0 bg-gradient-to-br from-purple-50 ..."
+                                  >
+                                  <div
++                                   className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,19..."
+-                                   className="jsx-8de691015a1e637d absolute inset-0 bg-[radial-gradient(circle_at_50%..."
+                                  >
+                                  <div
++                                   className="absolute top-0 -left-4 w-72 h-72 bg-purple-300 dark:bg-purple-600 round..."
+-                                   className="jsx-8de691015a1e637d absolute top-0 -left-4 w-72 h-72 bg-purple-300 dar..."
+                                  >
+                                  <div
++                                   className="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 dark:bg-yellow-600 roun..."
+-                                   className="jsx-8de691015a1e637d absolute top-0 -right-4 w-72 h-72 bg-yellow-300 da..."
+                                  >
+                                  <div
++                                   className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 dark:bg-pink-600 round..."
+-                                   className="jsx-8de691015a1e637d absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 d..."
+                                  >
+                                <div
++                                 className="container mx-auto px-4 py-12 sm:py-16 lg:py-20"
+-                                 className="jsx-8de691015a1e637d container mx-auto px-4 py-12 sm:py-16 lg:py-20"
+                                >
+                                  <div
++                                   className="relative text-center space-y-8 mb-20"
+-                                   className="jsx-8de691015a1e637d relative text-center space-y-8 mb-20"
+                                  >
+                                    <div
++                                     className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-..."
+-                                     className="jsx-8de691015a1e637d inline-flex items-center gap-3 px-6 py-3 rounded..."
+                                    >
+                                      <div
++                                       className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 ..."
+-                                       className="jsx-8de691015a1e637d w-8 h-8 rounded-full bg-gradient-to-br from-pu..."
+                                      >
+                                      <span
++                                       className="text-sm font-semibold bg-gradient-to-r from-purple-600 to-pink-600 ..."
+-                                       className="jsx-8de691015a1e637d text-sm font-semibold bg-gradient-to-r from-pu..."
+                                      >
++                                       Lingocast
+                                    <div
++                                     className="space-y-4 max-w-4xl mx-auto"
+-                                     className="jsx-8de691015a1e637d space-y-4 max-w-4xl mx-auto"
+                                    >
+                                      <h1
++                                       className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight"
+-                                       className="jsx-8de691015a1e637d text-5xl sm:text-6xl lg:text-7xl font-bold tra..."
+                                      >
+                                        <span
++                                         className="bg-gradient-to-r from-gray-900 via-purple-800 to-pink-800 dark:fr..."
+-                                         className="jsx-8de691015a1e637d bg-gradient-to-r from-gray-900 via-purple-80..."
+                                        >
++                                         Turn Blogs into
+                                        <br
+-                                         className="jsx-8de691015a1e637d"
+                                        >
+                                        <span
++                                         className="bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400..."
+-                                         className="jsx-8de691015a1e637d bg-gradient-to-r from-purple-600 to-pink-600..."
+                                        >
++                                         Multilingual Podcasts
+                                      <p
++                                       className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-au..."
+-                                       className="jsx-8de691015a1e637d text-lg sm:text-xl text-gray-600 dark:text-gra..."
+                                      >
++                                       Transform any blog post into professional podcast episodes in 18+ languages. Po...
+                                    <div
++                                     className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
+-                                     className="jsx-8de691015a1e637d flex flex-col sm:flex-row items-center justify-c..."
+                                    >
+                                      <_c size="lg" onClick={function onGetStarted} className="group rela...">
+                                        <button className={"inline-f..."} ref={null} onClick={function onGetStarted}>
+                                          <span
++                                           className="relative z-10 flex items-center gap-2"
+-                                           className="jsx-8de691015a1e637d relative z-10 flex items-center gap-2"
+                                          >
+                                          <div
++                                           className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 o..."
+-                                           className="jsx-8de691015a1e637d absolute inset-0 bg-gradient-to-r from-pur..."
+                                          >
+                                      ...
+                                    <div
++                                     className="flex flex-wrap items-center justify-center gap-6 pt-8 text-sm text-gr..."
+-                                     className="jsx-8de691015a1e637d flex flex-wrap items-center justify-center gap-6..."
+                                    >
+                                      <div
++                                       className="flex items-center gap-2"
+-                                       className="jsx-8de691015a1e637d flex items-center gap-2"
+                                      >
+                                        <CircleCheck>
+                                        <span
+-                                         className="jsx-8de691015a1e637d"
+                                        >
++                                         No credit card required
+                                      <div
++                                       className="flex items-center gap-2"
+-                                       className="jsx-8de691015a1e637d flex items-center gap-2"
+                                      >
+                                        <CircleCheck>
+                                        <span
+-                                         className="jsx-8de691015a1e637d"
+                                        >
++                                         18+ languages
+                                      <div
++                                       className="flex items-center gap-2"
+-                                       className="jsx-8de691015a1e637d flex items-center gap-2"
+                                      >
+                                        <CircleCheck>
+                                        <span
+-                                         className="jsx-8de691015a1e637d"
+                                        >
++                                         Instant processing
+                                  <div
++                                   className="mb-20"
+-                                   className="jsx-8de691015a1e637d mb-20"
+                                  >
+                                    <div
++                                     className="text-center mb-12"
+-                                     className="jsx-8de691015a1e637d text-center mb-12"
+                                    >
+                                      <h2
++                                       className="text-3xl sm:text-4xl font-bold mb-4 bg-gradient-to-r from-gray-900 ..."
+-                                       className="jsx-8de691015a1e637d text-3xl sm:text-4xl font-bold mb-4 bg-gradien..."
+                                      >
++                                       Powerful Features
+                                      <p
++                                       className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto"
+-                                       className="jsx-8de691015a1e637d text-gray-600 dark:text-gray-400 max-w-2xl mx-..."
+                                      >
++                                       Everything you need to create professional multilingual podcasts
+                                    <div
++                                     className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+-                                     className="jsx-8de691015a1e637d grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+                                    >
+                                      <_c className="group rela...">
+                                        <div ref={null} className="rounded-xl...">
+                                          <div
++                                           className="absolute inset-0 bg-gradient-to-br from-blue-500 to-cyan-500 op..."
+-                                           className="jsx-8de691015a1e637d absolute inset-0 bg-gradient-to-br from-bl..."
+                                          >
+                                          <_c8 className="p-6 space-y-4">
+                                            <div ref={null} className="p-6 space-y-4">
+                                              <div
++                                               className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cya..."
+-                                               className="jsx-8de691015a1e637d w-12 h-12 rounded-xl bg-gradient-to-br..."
+                                              >
+                                              <h3
++                                               className="text-xl font-semibold text-gray-900 dark:text-white"
+-                                               className="jsx-8de691015a1e637d text-xl font-semibold text-gray-900 da..."
+                                              >
++                                               18+ Languages
+                                              <p
++                                               className="text-gray-600 dark:text-gray-400 leading-relaxed"
+-                                               className="jsx-8de691015a1e637d text-gray-600 dark:text-gray-400 leadi..."
+                                              >
++                                               Transform your content into podcasts in any of 18+ supported languages
+                                      <_c className="group rela...">
+                                        <div ref={null} className="rounded-xl...">
+                                          <div
++                                           className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 ..."
+-                                           className="jsx-8de691015a1e637d absolute inset-0 bg-gradient-to-br from-pu..."
+                                          >
+                                          <_c8 className="p-6 space-y-4">
+                                            <div ref={null} className="p-6 space-y-4">
+                                              <div
++                                               className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-p..."
+-                                               className="jsx-8de691015a1e637d w-12 h-12 rounded-xl bg-gradient-to-br..."
+                                              >
+                                              <h3
++                                               className="text-xl font-semibold text-gray-900 dark:text-white"
+-                                               className="jsx-8de691015a1e637d text-xl font-semibold text-gray-900 da..."
+                                              >
++                                               Lightning Fast
+                                              <p
++                                               className="text-gray-600 dark:text-gray-400 leading-relaxed"
+-                                               className="jsx-8de691015a1e637d text-gray-600 dark:text-gray-400 leadi..."
+                                              >
++                                               Generate high-quality podcast episodes in seconds with AI-powered proce...
+                                      <_c className="group rela...">
+                                        <div ref={null} className="rounded-xl...">
+                                          <div
++                                           className="absolute inset-0 bg-gradient-to-br from-orange-500 to-red-500 o..."
+-                                           className="jsx-8de691015a1e637d absolute inset-0 bg-gradient-to-br from-or..."
+                                          >
+                                          <_c8 className="p-6 space-y-4">
+                                            <div ref={null} className="p-6 space-y-4">
+                                              <div
++                                               className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-r..."
+-                                               className="jsx-8de691015a1e637d w-12 h-12 rounded-xl bg-gradient-to-br..."
+                                              >
+                                              <h3
++                                               className="text-xl font-semibold text-gray-900 dark:text-white"
+-                                               className="jsx-8de691015a1e637d text-xl font-semibold text-gray-900 da..."
+                                              >
++                                               AI-Powered
+                                              <p
++                                               className="text-gray-600 dark:text-gray-400 leading-relaxed"
+-                                               className="jsx-8de691015a1e637d text-gray-600 dark:text-gray-400 leadi..."
+                                              >
++                                               Advanced AI automatically structures your content into engaging chapters
+                                      <_c className="group rela...">
+                                        <div ref={null} className="rounded-xl...">
+                                          <div
++                                           className="absolute inset-0 bg-gradient-to-br from-green-500 to-emerald-50..."
+-                                           className="jsx-8de691015a1e637d absolute inset-0 bg-gradient-to-br from-gr..."
+                                          >
+                                          <_c8 className="p-6 space-y-4">
+                                            <div ref={null} className="p-6 space-y-4">
+                                              <div
++                                               className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-em..."
+-                                               className="jsx-8de691015a1e637d w-12 h-12 rounded-xl bg-gradient-to-br..."
+                                              >
+                                              <h3
++                                               className="text-xl font-semibold text-gray-900 dark:text-white"
+-                                               className="jsx-8de691015a1e637d text-xl font-semibold text-gray-900 da..."
+                                              >
++                                               Studio Quality
+                                              <p
++                                               className="text-gray-600 dark:text-gray-400 leading-relaxed"
+-                                               className="jsx-8de691015a1e637d text-gray-600 dark:text-gray-400 leadi..."
+                                              >
++                                               Natural-sounding voices with professional audio quality
+                                      <_c className="group rela...">
+                                        <div ref={null} className="rounded-xl...">
+                                          <div
++                                           className="absolute inset-0 bg-gradient-to-br from-violet-500 to-purple-50..."
+-                                           className="jsx-8de691015a1e637d absolute inset-0 bg-gradient-to-br from-vi..."
+                                          >
+                                          <_c8 className="p-6 space-y-4">
+                                            <div ref={null} className="p-6 space-y-4">
+                                              <div
++                                               className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-p..."
+-                                               className="jsx-8de691015a1e637d w-12 h-12 rounded-xl bg-gradient-to-br..."
+                                              >
+                                              <h3
++                                               className="text-xl font-semibold text-gray-900 dark:text-white"
+-                                               className="jsx-8de691015a1e637d text-xl font-semibold text-gray-900 da..."
+                                              >
++                                               Smart Translation
+                                              <p
++                                               className="text-gray-600 dark:text-gray-400 leading-relaxed"
+-                                               className="jsx-8de691015a1e637d text-gray-600 dark:text-gray-400 leadi..."
+                                              >
++                                               Powered by Lingo.dev for accurate, context-aware translations
+                                      <_c className="group rela...">
+                                        <div ref={null} className="rounded-xl...">
+                                          <div
++                                           className="absolute inset-0 bg-gradient-to-br from-pink-500 to-rose-500 op..."
+-                                           className="jsx-8de691015a1e637d absolute inset-0 bg-gradient-to-br from-pi..."
+                                          >
+                                          <_c8 className="p-6 space-y-4">
+                                            <div ref={null} className="p-6 space-y-4">
+                                              <div
++                                               className="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-ros..."
+-                                               className="jsx-8de691015a1e637d w-12 h-12 rounded-xl bg-gradient-to-br..."
+                                              >
+                                              <h3
++                                               className="text-xl font-semibold text-gray-900 dark:text-white"
+-                                               className="jsx-8de691015a1e637d text-xl font-semibold text-gray-900 da..."
+                                              >
++                                               Easy Export
+                                              <p
++                                               className="text-gray-600 dark:text-gray-400 leading-relaxed"
+-                                               className="jsx-8de691015a1e637d text-gray-600 dark:text-gray-400 leadi..."
+                                              >
++                                               Download individual chapters or merge them into complete episodes
+                                  <div
++                                   className="mb-20"
+-                                   className="jsx-8de691015a1e637d mb-20"
+                                  >
+                                    <div
++                                     className="text-center mb-12"
+-                                     className="jsx-8de691015a1e637d text-center mb-12"
+                                    >
+                                      <h2
++                                       className="text-3xl sm:text-4xl font-bold mb-4 bg-gradient-to-r from-gray-900 ..."
+-                                       className="jsx-8de691015a1e637d text-3xl sm:text-4xl font-bold mb-4 bg-gradien..."
+                                      >
++                                       How It Works
+                                      <p
++                                       className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto"
+-                                       className="jsx-8de691015a1e637d text-gray-600 dark:text-gray-400 max-w-2xl mx-..."
+                                      >
++                                       Create your multilingual podcast in four simple steps
+                                    <div
++                                     className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto"
+-                                     className="jsx-8de691015a1e637d grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6..."
+                                    >
+                                      <div
++                                       className="relative"
+-                                       className="jsx-8de691015a1e637d relative"
+                                      >
+                                        <div
++                                         className="text-center space-y-4"
+-                                         className="jsx-8de691015a1e637d text-center space-y-4"
+                                        >
+                                          <div
++                                           className="relative mx-auto w-20 h-20"
+-                                           className="jsx-8de691015a1e637d relative mx-auto w-20 h-20"
+                                          >
+                                            <div
++                                             className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-50..."
+-                                             className="jsx-8de691015a1e637d absolute inset-0 bg-gradient-to-br from-..."
+                                            >
+                                            <div
++                                             className="relative bg-gradient-to-br from-purple-500 to-pink-500 rounde..."
+-                                             className="jsx-8de691015a1e637d relative bg-gradient-to-br from-purple-5..."
+                                            >
+                                              <span
++                                               className="text-2xl font-bold text-white"
+-                                               className="jsx-8de691015a1e637d text-2xl font-bold text-white"
+                                              >
++                                               01
+                                          <h3
++                                           className="text-xl font-semibold text-gray-900 dark:text-white"
+-                                           className="jsx-8de691015a1e637d text-xl font-semibold text-gray-900 dark:t..."
+                                          >
++                                           Paste URL
+                                          <p
++                                           className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed"
+-                                           className="jsx-8de691015a1e637d text-gray-600 dark:text-gray-400 text-sm l..."
+                                          >
++                                           Simply paste any blog post URL you want to convert
+                                        <div
++                                         className="hidden lg:block absolute top-10 left-[60%] w-[80%] h-0.5 bg-gradi..."
+-                                         className="jsx-8de691015a1e637d hidden lg:block absolute top-10 left-[60%] w..."
+                                        >
+                                      <div
++                                       className="relative"
+-                                       className="jsx-8de691015a1e637d relative"
+                                      >
+                                        <div
++                                         className="text-center space-y-4"
+-                                         className="jsx-8de691015a1e637d text-center space-y-4"
+                                        >
+                                          <div
++                                           className="relative mx-auto w-20 h-20"
+-                                           className="jsx-8de691015a1e637d relative mx-auto w-20 h-20"
+                                          >
+                                            <div
++                                             className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-50..."
+-                                             className="jsx-8de691015a1e637d absolute inset-0 bg-gradient-to-br from-..."
+                                            >
+                                            <div
++                                             className="relative bg-gradient-to-br from-purple-500 to-pink-500 rounde..."
+-                                             className="jsx-8de691015a1e637d relative bg-gradient-to-br from-purple-5..."
+                                            >
+                                              <span
++                                               className="text-2xl font-bold text-white"
+-                                               className="jsx-8de691015a1e637d text-2xl font-bold text-white"
+                                              >
++                                               02
+                                          <h3
++                                           className="text-xl font-semibold text-gray-900 dark:text-white"
+-                                           className="jsx-8de691015a1e637d text-xl font-semibold text-gray-900 dark:t..."
+                                          >
++                                           AI Processing
+                                          <p
++                                           className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed"
+-                                           className="jsx-8de691015a1e637d text-gray-600 dark:text-gray-400 text-sm l..."
+                                          >
++                                           Our AI analyzes and structures content into chapters
+                                        <div
++                                         className="hidden lg:block absolute top-10 left-[60%] w-[80%] h-0.5 bg-gradi..."
+-                                         className="jsx-8de691015a1e637d hidden lg:block absolute top-10 left-[60%] w..."
+                                        >
+                                      <div
++                                       className="relative"
+-                                       className="jsx-8de691015a1e637d relative"
+                                      >
+                                        <div
++                                         className="text-center space-y-4"
+-                                         className="jsx-8de691015a1e637d text-center space-y-4"
+                                        >
+                                          <div
++                                           className="relative mx-auto w-20 h-20"
+-                                           className="jsx-8de691015a1e637d relative mx-auto w-20 h-20"
+                                          >
+                                            <div
++                                             className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-50..."
+-                                             className="jsx-8de691015a1e637d absolute inset-0 bg-gradient-to-br from-..."
+                                            >
+                                            <div
++                                             className="relative bg-gradient-to-br from-purple-500 to-pink-500 rounde..."
+-                                             className="jsx-8de691015a1e637d relative bg-gradient-to-br from-purple-5..."
+                                            >
+                                              <span
++                                               className="text-2xl font-bold text-white"
+-                                               className="jsx-8de691015a1e637d text-2xl font-bold text-white"
+                                              >
++                                               03
+                                          <h3
++                                           className="text-xl font-semibold text-gray-900 dark:text-white"
+-                                           className="jsx-8de691015a1e637d text-xl font-semibold text-gray-900 dark:t..."
+                                          >
++                                           Select Languages
+                                          <p
++                                           className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed"
+-                                           className="jsx-8de691015a1e637d text-gray-600 dark:text-gray-400 text-sm l..."
+                                          >
++                                           Choose from 18+ languages for your podcast
+                                        <div
++                                         className="hidden lg:block absolute top-10 left-[60%] w-[80%] h-0.5 bg-gradi..."
+-                                         className="jsx-8de691015a1e637d hidden lg:block absolute top-10 left-[60%] w..."
+                                        >
+                                      <div
++                                       className="relative"
+-                                       className="jsx-8de691015a1e637d relative"
+                                      >
+                                        <div
++                                         className="text-center space-y-4"
+-                                         className="jsx-8de691015a1e637d text-center space-y-4"
+                                        >
+                                          <div
++                                           className="relative mx-auto w-20 h-20"
+-                                           className="jsx-8de691015a1e637d relative mx-auto w-20 h-20"
+                                          >
+                                            <div
++                                             className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-50..."
+-                                             className="jsx-8de691015a1e637d absolute inset-0 bg-gradient-to-br from-..."
+                                            >
+                                            <div
++                                             className="relative bg-gradient-to-br from-purple-500 to-pink-500 rounde..."
+-                                             className="jsx-8de691015a1e637d relative bg-gradient-to-br from-purple-5..."
+                                            >
+                                              <span
++                                               className="text-2xl font-bold text-white"
+-                                               className="jsx-8de691015a1e637d text-2xl font-bold text-white"
+                                              >
++                                               04
+                                          <h3
++                                           className="text-xl font-semibold text-gray-900 dark:text-white"
+-                                           className="jsx-8de691015a1e637d text-xl font-semibold text-gray-900 dark:t..."
+                                          >
++                                           Download
+                                          <p
++                                           className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed"
+-                                           className="jsx-8de691015a1e637d text-gray-600 dark:text-gray-400 text-sm l..."
+                                          >
++                                           Get your multilingual podcast ready to share
+                                  <div
++                                   className="relative"
+-                                   className="jsx-8de691015a1e637d relative"
+                                  >
+                                    <_c className="border-2 b...">
+                                      <div ref={null} className="rounded-xl...">
+                                        <div
++                                         className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-purple-40..."
+-                                         className="jsx-8de691015a1e637d absolute top-0 right-0 w-64 h-64 bg-gradient..."
+                                        >
+                                        <_c8 className="relative p...">
+                                          <div ref={null} className="relative p...">
+                                            <h2
++                                             className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-purple-6..."
+-                                             className="jsx-8de691015a1e637d text-3xl sm:text-4xl font-bold bg-gradie..."
+                                            >
++                                             Ready to get started?
+                                            <p
++                                             className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
+-                                             className="jsx-8de691015a1e637d text-lg text-gray-600 dark:text-gray-300..."
+                                            >
++                                             Join thousands of content creators who are already using Lingocast to rea...
+                                            <_c size="lg" onClick={function onGetStarted} className="group rela...">
+                                              <button className={"inline-f..."} ref={null} ...>
+                                                <span
++                                                 className="relative z-10 flex items-center gap-2"
+-                                                 className="jsx-8de691015a1e637d relative z-10 flex items-center gap-2"
+                                                >
+                                ...
+                      ...
+                    ...
+        ...
+
