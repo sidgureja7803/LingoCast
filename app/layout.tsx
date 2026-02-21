@@ -15,23 +15,23 @@ const geistSans = Geist({
 
 
 export const metadata: Metadata = {
-  title: "Podcastify - Multilingual Podcast Generator",
+  title: "LingoCast - Multilingual Podcast Generator",
   description: "Transform any blog post into a multilingual podcast in seconds. Generate high-quality audio files in 18+ languages with AI-powered translation and text-to-speech.",
-  keywords: ["podcast", "multilingual", "audio", "translation", "text-to-speech", "blog to podcast", "AI podcast"],
-  authors: [{ name: "Podcastify" }],
-  creator: "Podcastify",
-  publisher: "Podcastify",
+  keywords: ["podcast", "multilingual", "audio", "translation", "text-to-speech", "blog to podcast", "AI podcast", "lingocast", "lingo.dev"],
+  authors: [{ name: "LingoCast" }],
+  creator: "LingoCast",
+  publisher: "LingoCast",
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://podcastify.app"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://lingocast.vercel.app"),
   openGraph: {
-    title: "Podcastify - Multilingual Podcast Generator",
+    title: "LingoCast - Multilingual Podcast Generator",
     description: "Transform any blog post into a multilingual podcast in seconds",
-    url: process.env.NEXT_PUBLIC_APP_URL || "https://podcastify.app",
-    siteName: "Podcastify",
+    url: process.env.NEXT_PUBLIC_APP_URL || "https://lingocast.vercel.app",
+    siteName: "LingoCast",
     locale: "en_US",
     type: "website",
     images: [
@@ -39,15 +39,15 @@ export const metadata: Metadata = {
         url: "/pg-image.png",
         width: 1200,
         height: 630,
-        alt: "Podcastify - Multilingual Podcast Generator",
+        alt: "LingoCast - Multilingual Podcast Generator",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Podcastify - Multilingual Podcast Generator",
+    title: "LingoCast - Multilingual Podcast Generator",
     description: "Transform any blog post into a multilingual podcast in seconds",
-    creator: "@podcastify",
+    creator: "@lingocast",
     images: ["/pg-image.png"],
   },
   robots: {

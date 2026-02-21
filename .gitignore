@@ -1,1 +1,20 @@
+# dependencies
 node_modules
+
+# next.js
+.next
+out
+
+# environment variables
+.env
+.env.*
+!.env.example
+
+# macOS
+.DS_Store
+
+# build info
+*.tsbuildinfo
+
+# vercel
+.vercel
