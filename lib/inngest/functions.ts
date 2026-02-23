@@ -54,6 +54,13 @@ async function generateTTSWithGemini(
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        systemInstruction: {
+          parts: [
+            {
+              text: "You are a professional voice actor. Read the following text aloud exactly as written, generating only audio and no text."
+            }
+          ]
+        },
         contents: [
           {
             parts: [
@@ -191,9 +198,9 @@ export const generateAudioBackground = inngest.createFunction(
     if (existingAudio) {
       // Update job as completed with cached audio
       if (jobId) {
-        updateJob(jobId, { 
-          status: "completed", 
-          audioUrl: existingAudio 
+        updateJob(jobId, {
+          status: "completed",
+          audioUrl: existingAudio
         });
       }
       return { audioUrl: existingAudio, cached: true, chapterId, language };
@@ -216,14 +223,14 @@ export const generateAudioBackground = inngest.createFunction(
 
           let audioBuffer = result.buffer;
 
-        if (detectedMimeType.includes("L16") || detectedMimeType.includes("pcm")) {
-          const rateMatch = detectedMimeType.match(/rate=(\d+)/);
-          if (rateMatch) {
-            sampleRate = parseInt(rateMatch[1], 10);
+          if (detectedMimeType.includes("L16") || detectedMimeType.includes("pcm")) {
+            const rateMatch = detectedMimeType.match(/rate=(\d+)/);
+            if (rateMatch) {
+              sampleRate = parseInt(rateMatch[1], 10);
+            }
+            console.log(`[Inngest] Converting PCM to WAV format (sample rate: ${sampleRate}Hz)`);
+            audioBuffer = pcmToWav(Buffer.from(result.buffer), sampleRate);
           }
-          console.log(`[Inngest] Converting PCM to WAV format (sample rate: ${sampleRate}Hz)`);
-          audioBuffer = pcmToWav(Buffer.from(result.buffer), sampleRate);
-        }
 
           finalAudioBuffer = Buffer.from(audioBuffer);
           console.log(`[Inngest] Audio generated, size: ${audioBuffer.length} bytes`);
@@ -246,10 +253,10 @@ export const generateAudioBackground = inngest.createFunction(
 
           let combinedAudio = Buffer.concat(audioChunks);
 
-        if (detectedMimeType.includes("L16") || detectedMimeType.includes("pcm")) {
-          console.log(`[Inngest] Converting PCM to WAV format (sample rate: ${sampleRate}Hz)`);
-          combinedAudio = pcmToWav(Buffer.from(combinedAudio), sampleRate);
-        }
+          if (detectedMimeType.includes("L16") || detectedMimeType.includes("pcm")) {
+            console.log(`[Inngest] Converting PCM to WAV format (sample rate: ${sampleRate}Hz)`);
+            combinedAudio = pcmToWav(Buffer.from(combinedAudio), sampleRate);
+          }
 
           finalAudioBuffer = Buffer.from(combinedAudio);
           console.log(`[Inngest] Audio generated, size: ${combinedAudio.length} bytes`);
@@ -280,8 +287,8 @@ export const generateAudioBackground = inngest.createFunction(
 
     // Update job as completed
     if (jobId) {
-      updateJob(jobId, { 
-        status: "completed", 
+      updateJob(jobId, {
+        status: "completed",
         audioUrl: audioResult.url
       });
     }

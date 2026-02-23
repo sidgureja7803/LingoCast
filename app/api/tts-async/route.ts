@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("[TTS Async] Error:", error);
     return NextResponse.json(
-      { error: "An error occurred while triggering audio generation" },
+      { error: `An error occurred while triggering audio generation: ${error instanceof Error ? error.message : String(error)}` },
       { status: 500 }
     );
   }
