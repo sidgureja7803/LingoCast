@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Loader2, Globe, Play, Volume2 } from "lucide-react"
-import { useLingo } from "@/lib/lingo"
+
 import { cn } from "@/lib/utils"
 
 interface Chapter {
@@ -38,7 +38,7 @@ const LANGUAGES = [
 ]
 
 export function ChapterCard({ chapter, translations, onTranslate, onGenerateAudio, initialAudioUrls = {} }: ChapterCardProps) {
-  const { t } = useLingo()
+
   const [selectedLanguage, setSelectedLanguage] = useState("en")
   const [isTranslating, setIsTranslating] = useState(false)
   const [isGeneratingAudio, setIsGeneratingAudio] = useState(false)
@@ -47,9 +47,9 @@ export function ChapterCard({ chapter, translations, onTranslate, onGenerateAudi
 
   const handleLanguageSelect = async (langCode: string) => {
     if (langCode === selectedLanguage) return
-    
+
     setSelectedLanguage(langCode)
-    
+
     if (!translations[langCode] && langCode !== "en") {
       setIsTranslating(true)
       try {
@@ -62,13 +62,13 @@ export function ChapterCard({ chapter, translations, onTranslate, onGenerateAudi
     }
   }
 
-  const displayContent = selectedLanguage === "en" 
+  const displayContent = selectedLanguage === "en"
     ? { title: chapter.title, textContent: chapter.textContent }
     : translations[selectedLanguage] || { title: chapter.title, textContent: chapter.textContent }
 
   const handleGenerateAudio = async () => {
     if (!onGenerateAudio) return
-    
+
     const cachedUrl = audioUrls[selectedLanguage]
     if (cachedUrl) {
       setCurrentAudioUrl(cachedUrl)
@@ -121,7 +121,7 @@ export function ChapterCard({ chapter, translations, onTranslate, onGenerateAudi
             {LANGUAGES.map((lang) => {
               const hasTranslation = lang.code === "en" || !!translations[lang.code]
               const isSelected = selectedLanguage === lang.code
-              
+
               return (
                 <Button
                   key={lang.code}
@@ -151,7 +151,7 @@ export function ChapterCard({ chapter, translations, onTranslate, onGenerateAudi
                 {displayContent.textContent}
               </p>
             </div>
-            
+
             <div className="flex items-center gap-2 pt-4 border-t">
               <Button
                 onClick={handleGenerateAudio}
@@ -177,7 +177,7 @@ export function ChapterCard({ chapter, translations, onTranslate, onGenerateAudi
                   </>
                 )}
               </Button>
-              
+
               {currentAudioUrl && (
                 <div className="flex-1">
                   <audio
@@ -196,7 +196,7 @@ export function ChapterCard({ chapter, translations, onTranslate, onGenerateAudi
                         networkState: audioElement.networkState,
                         readyState: audioElement.readyState,
                       })
-                      
+
                       if (error) {
                         switch (error.code) {
                           case error.MEDIA_ERR_ABORTED:

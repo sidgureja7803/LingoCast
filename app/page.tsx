@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/tooltip"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
-import { useLingo } from "@/lib/lingo"
+
 import { LanguageSwitcher } from "@/components/language-switcher"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { LandingPage } from "@/components/landing-page"
@@ -65,7 +65,6 @@ interface ChapterTranslation {
 }
 
 export default function Home() {
-  const { t } = useLingo()
   const [url, setUrl] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -291,7 +290,7 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!url.trim()) {
-      setError(t("Please enter a valid URL"))
+      setError("Please enter a valid URL")
       return
     }
 
@@ -320,7 +319,7 @@ export default function Home() {
     try {
       const urlPattern = /^https?:\/\/.+\..+/
       if (!urlPattern.test(normalizedUrl)) {
-        throw new Error(t("Invalid URL format"))
+        throw new Error("Invalid URL format")
       }
 
       console.log("[Step 1/3] Starting scrape...")
@@ -337,7 +336,7 @@ export default function Home() {
         const errorData = await response.json()
         updateStep("scrape", "error")
         toast.error(errorData.error || "Failed to scrape blog", { id: "scrape" })
-        throw new Error(errorData.error || t("An error occurred"))
+        throw new Error(errorData.error || "An error occurred")
       }
 
       const scrapedData = await response.json()
@@ -361,7 +360,7 @@ export default function Home() {
         const errorData = await chaptersResponse.json()
         updateStep("chapters", "error")
         toast.error(errorData.error || "Failed to generate chapters", { id: "chapters" })
-        throw new Error(errorData.error || t("Failed to generate chapters"))
+        throw new Error(errorData.error || "Failed to generate chapters")
       }
 
       const chaptersData = await chaptersResponse.json()
@@ -388,7 +387,7 @@ export default function Home() {
         updateStep("summarize", "error")
         console.error("[Step 3/3] Summarization failed:", errorData)
         toast.error(errorData.error || "Failed to summarize chapters", { id: "summarize" })
-        throw new Error(errorData.error || t("Failed to summarize chapters"))
+        throw new Error(errorData.error || "Failed to summarize chapters")
       }
 
       const summarizedData = await summarizeResponse.json()
@@ -409,7 +408,7 @@ export default function Home() {
       }, 500)
     } catch (err) {
       console.error("Error in processing:", err)
-      setError(err instanceof Error ? err.message : t("An error occurred"))
+      setError(err instanceof Error ? err.message : "An error occurred")
     } finally {
       setIsLoading(false)
     }
@@ -442,10 +441,10 @@ export default function Home() {
               {/* Title and Paragraph */}
               <div className="space-y-2 text-center">
                 <h1 className="text-3xl sm:text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
-                  {t("Multilingual Podcast Generator")}
+                  Multilingual Podcast Generator
                 </h1>
                 <p className="text-xs sm:text-sm text-muted-foreground md:text-base">
-                  {t("Turn any blog into a multilingual podcast in seconds")}
+                  Turn any blog into a multilingual podcast in seconds
                 </p>
               </div>
 
@@ -455,7 +454,7 @@ export default function Home() {
                   <LinkIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
                     type="url"
-                    placeholder={t("https://example.com/blog-post")}
+                    placeholder="https://example.com/blog-post"
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     disabled={isLoading}
@@ -480,7 +479,7 @@ export default function Home() {
                     </div>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>{t("Select chapters")}</p>
+                    <p>Select chapters</p>
                   </TooltipContent>
                 </Tooltip>
                 <Button

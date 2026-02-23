@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useCallback, useMemo, useEffect, useState } from "react"
-import { useLingo } from "@/lib/lingo"
+
 import { LanguageSwitcher } from "@/components/language-switcher"
 import {
   ReactFlow,
@@ -121,7 +121,7 @@ function ChapterNode({
     onGenerateAudio: (chapterId: string, language: string) => Promise<string>
   }
 }) {
-  const { t } = useLingo()
+
   const { chapter, translations, audioUrls, onTranslate, onGenerateAudio } = data
   const [selectedLanguage, setSelectedLanguage] = useState("en")
   const [isTranslating, setIsTranslating] = useState(false)
@@ -136,7 +136,7 @@ function ChapterNode({
 
   const handleLanguageSelect = async (langCode: string) => {
     if (langCode === selectedLanguage) return
-    
+
     if (!translations[langCode] && langCode !== "en") {
       setIsTranslating(true)
       try {
@@ -158,15 +158,15 @@ function ChapterNode({
     }
 
     setIsGeneratingAudio(true)
-    const toastId = toast.loading(`${t("Generating")} ${LANGUAGES.find(l => l.code === selectedLanguage)?.name} ${t("audio...")}`)
-    
+    const toastId = toast.loading(`Generating ${LANGUAGES.find(l => l.code === selectedLanguage)?.name} audio...`)
+
     try {
       const audioUrl = await onGenerateAudio(chapter.id, selectedLanguage, displayContent.textContent)
       setCurrentAudioUrls((prev) => ({ ...prev, [selectedLanguage]: audioUrl }))
-      toast.success(t("Audio generated successfully!"), { id: toastId })
+      toast.success("Audio generated successfully!", { id: toastId })
     } catch (error) {
       console.error("Audio generation failed:", error)
-      toast.error(t("Failed to generate audio"), { id: toastId })
+      toast.error("Failed to generate audio", { id: toastId })
     } finally {
       setIsGeneratingAudio(false)
     }
@@ -187,13 +187,13 @@ function ChapterNode({
       <Handle type="source" position={Position.Bottom} className="w-3 h-3" />
       <Handle type="source" position={Position.Left} className="w-3 h-3" />
       <Handle type="source" position={Position.Right} className="w-3 h-3" />
-      
+
       <div className={cn(
         "relative rounded-xl",
         isGeneratingAudio && "p-[2px]"
       )}>
         {isGeneratingAudio && (
-          <div 
+          <div
             className="absolute inset-0 rounded-xl pointer-events-none"
             style={{
               background: "linear-gradient(90deg, hsl(var(--muted-foreground)), hsl(var(--foreground)), hsl(var(--muted-foreground)))",
@@ -208,143 +208,143 @@ function ChapterNode({
           isGeneratingAudio && "border-transparent"
         )}>
           <div className="space-y-3">
-          <div className="flex items-start justify-between gap-2">
-            <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-sm truncate">{displayContent.title}</h3>
-              <p className="text-xs text-muted-foreground">{chapter.wordCount} words</p>
-            </div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8">
-                  <MoreVertical className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <div className="px-2 py-1.5 text-xs font-semibold">Languages</div>
-                {LANGUAGES.map((lang) => (
-                  <DropdownMenuItem
-                    key={lang.code}
-                    onClick={() => handleLanguageSelect(lang.code)}
-                    className={cn(
-                      "cursor-pointer",
-                      selectedLanguage === lang.code && "bg-accent"
-                    )}
-                  >
-                    <Globe className="h-3 w-3 mr-2" />
-                    {lang.name}
-                    {translations[lang.code] && (
-                      <Badge variant="secondary" className="ml-auto text-xs">
-                        ✓
-                      </Badge>
-                    )}
-                  </DropdownMenuItem>
-                ))}
-                <div className="border-t my-1" />
-                <DropdownMenuItem
-                  onClick={handleGenerateAudio}
-                  disabled={isGeneratingAudio || !!currentAudioUrls[selectedLanguage]}
-                  className="cursor-pointer"
-                >
-                    <Volume2 className="h-3 w-3 mr-2" />
-                    {isGeneratingAudio
-                      ? t("Generating...")
-                      : currentAudioUrls[selectedLanguage]
-                        ? t("Audio Ready")
-                        : t("Generate Audio")}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-          <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
-            <DrawerTrigger asChild>
-                <Button variant="outline" className="w-full" size="sm">
-                  <FileText className="h-3 w-3 mr-2" />
-                  {t("View Content")}
-                </Button>
-            </DrawerTrigger>
-            <DrawerContent className="max-h-[85vh] sm:max-h-[80vh]">
-              <DrawerHeader className="px-4 sm:px-6">
-                <DrawerTitle className="text-base sm:text-lg">{displayContentForDrawer.title}</DrawerTitle>
-                <DrawerDescription className="text-xs sm:text-sm">
-                  {chapter.wordCount} {t("words")} • {t("Language:")} {LANGUAGES.find(l => l.code === selectedLanguage)?.name || selectedLanguage.toUpperCase()}
-                </DrawerDescription>
-              </DrawerHeader>
-              <div className="px-4 sm:px-6 pb-4 overflow-y-auto">
-                <div className="prose prose-sm max-w-none dark:prose-invert">
-                  <p className="whitespace-pre-wrap text-xs sm:text-sm leading-relaxed">
-                    {displayContentForDrawer.textContent}
-                  </p>
-                </div>
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold text-sm truncate">{displayContent.title}</h3>
+                <p className="text-xs text-muted-foreground">{chapter.wordCount} words</p>
               </div>
-              <DrawerFooter className="px-4 sm:px-6">
-                <div className="flex flex-wrap gap-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <MoreVertical className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <div className="px-2 py-1.5 text-xs font-semibold">Languages</div>
                   {LANGUAGES.map((lang) => (
-                    <Button
+                    <DropdownMenuItem
                       key={lang.code}
-                      variant={selectedLanguage === lang.code ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => {
-                        handleLanguageSelect(lang.code)
-                      }}
-                      disabled={isTranslating}
+                      onClick={() => handleLanguageSelect(lang.code)}
+                      className={cn(
+                        "cursor-pointer",
+                        selectedLanguage === lang.code && "bg-accent"
+                      )}
                     >
+                      <Globe className="h-3 w-3 mr-2" />
                       {lang.name}
                       {translations[lang.code] && (
-                        <Badge variant="secondary" className="ml-2 text-xs">
+                        <Badge variant="secondary" className="ml-auto text-xs">
                           ✓
                         </Badge>
                       )}
-                    </Button>
+                    </DropdownMenuItem>
                   ))}
-                </div>
-                <div className="flex gap-2">
-                  <Button
-                    variant="default"
-                    onClick={async () => {
-                      if (!currentAudioUrls[selectedLanguage]) {
-                        await handleGenerateAudio()
-                        setDrawerOpen(false)
-                      }
-                    }}
+                  <div className="border-t my-1" />
+                  <DropdownMenuItem
+                    onClick={handleGenerateAudio}
                     disabled={isGeneratingAudio || !!currentAudioUrls[selectedLanguage]}
-                    className="flex-1"
+                    className="cursor-pointer"
                   >
-                    {isGeneratingAudio ? (
-                      <>
-                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                        {t("Generating...")}
-                      </>
-                    ) : currentAudioUrls[selectedLanguage] ? (
-                      <>
-                        <Play className="h-4 w-4 mr-2" />
-                        {t("Audio Available")}
-                      </>
-                    ) : (
-                      <>
-                        <Volume2 className="h-4 w-4 mr-2" />
-                        {t("Generate Audio")}
-                      </>
-                    )}
-                  </Button>
-                  <DrawerClose asChild>
-                    <Button variant="outline" className="flex-1">Close</Button>
-                  </DrawerClose>
-                </div>
-              </DrawerFooter>
-            </DrawerContent>
-          </Drawer>
-          {isTranslating && (
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <Loader2 className="h-3 w-3 animate-spin" />
-              {t("Translating...")}
+                    <Volume2 className="h-3 w-3 mr-2" />
+                    {isGeneratingAudio
+                      ? "Generating..."
+                      : currentAudioUrls[selectedLanguage]
+                        ? "Audio Ready"
+                        : "Generate Audio"}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
-          )}
-          {currentAudioUrls[selectedLanguage] && (
-            <Badge variant="outline" className="w-full justify-center">
-              <Play className="h-3 w-3 mr-1" />
-              {t("Audio Available")}
-            </Badge>
-          )}
+            <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
+              <DrawerTrigger asChild>
+                <Button variant="outline" className="w-full" size="sm">
+                  <FileText className="h-3 w-3 mr-2" />
+                  View Content
+                </Button>
+              </DrawerTrigger>
+              <DrawerContent className="max-h-[85vh] sm:max-h-[80vh]">
+                <DrawerHeader className="px-4 sm:px-6">
+                  <DrawerTitle className="text-base sm:text-lg">{displayContentForDrawer.title}</DrawerTitle>
+                  <DrawerDescription className="text-xs sm:text-sm">
+                    {chapter.wordCount} words • Language: {LANGUAGES.find(l => l.code === selectedLanguage)?.name || selectedLanguage.toUpperCase()}
+                  </DrawerDescription>
+                </DrawerHeader>
+                <div className="px-4 sm:px-6 pb-4 overflow-y-auto">
+                  <div className="prose prose-sm max-w-none dark:prose-invert">
+                    <p className="whitespace-pre-wrap text-xs sm:text-sm leading-relaxed">
+                      {displayContentForDrawer.textContent}
+                    </p>
+                  </div>
+                </div>
+                <DrawerFooter className="px-4 sm:px-6">
+                  <div className="flex flex-wrap gap-2">
+                    {LANGUAGES.map((lang) => (
+                      <Button
+                        key={lang.code}
+                        variant={selectedLanguage === lang.code ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => {
+                          handleLanguageSelect(lang.code)
+                        }}
+                        disabled={isTranslating}
+                      >
+                        {lang.name}
+                        {translations[lang.code] && (
+                          <Badge variant="secondary" className="ml-2 text-xs">
+                            ✓
+                          </Badge>
+                        )}
+                      </Button>
+                    ))}
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="default"
+                      onClick={async () => {
+                        if (!currentAudioUrls[selectedLanguage]) {
+                          await handleGenerateAudio()
+                          setDrawerOpen(false)
+                        }
+                      }}
+                      disabled={isGeneratingAudio || !!currentAudioUrls[selectedLanguage]}
+                      className="flex-1"
+                    >
+                      {isGeneratingAudio ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Generating...
+                        </>
+                      ) : currentAudioUrls[selectedLanguage] ? (
+                        <>
+                          <Play className="h-4 w-4 mr-2" />
+                          Audio Available
+                        </>
+                      ) : (
+                        <>
+                          <Volume2 className="h-4 w-4 mr-2" />
+                          Generate Audio
+                        </>
+                      )}
+                    </Button>
+                    <DrawerClose asChild>
+                      <Button variant="outline" className="flex-1">Close</Button>
+                    </DrawerClose>
+                  </div>
+                </DrawerFooter>
+              </DrawerContent>
+            </Drawer>
+            {isTranslating && (
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <Loader2 className="h-3 w-3 animate-spin" />
+                Translating...
+              </div>
+            )}
+            {currentAudioUrls[selectedLanguage] && (
+              <Badge variant="outline" className="w-full justify-center">
+                <Play className="h-3 w-3 mr-1" />
+                Audio Available
+              </Badge>
+            )}
           </div>
         </Card>
       </div>
@@ -352,10 +352,10 @@ function ChapterNode({
   )
 }
 
-function AudioNode({ 
-  data 
-}: { 
-  data: { 
+function AudioNode({
+  data
+}: {
+  data: {
     audioUrl: string
     language: string
     chapterId: string
@@ -363,11 +363,11 @@ function AudioNode({
     onToggleSelect: (nodeId: string) => void
     nodeId: string
     chapter?: Chapter
-  } 
+  }
 }) {
-  const { t } = useLingo()
+
   const [dialogOpen, setDialogOpen] = useState(false)
-  
+
   const handleDownload = () => {
     const link = document.createElement('a')
     link.href = data.audioUrl
@@ -375,7 +375,7 @@ function AudioNode({
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
-    toast.success(t("Audio download started!"))
+    toast.success("Audio download started!")
   }
 
   const languageName = LANGUAGES.find(l => l.code === data.language)?.name || data.language.toUpperCase()
@@ -386,7 +386,7 @@ function AudioNode({
       <Handle type="source" position={Position.Bottom} className="w-2 h-2" />
       <Handle type="target" position={Position.Left} className="w-2 h-2" />
       <Handle type="source" position={Position.Right} className="w-2 h-2" />
-      
+
       <div className="relative">
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
@@ -415,39 +415,39 @@ function AudioNode({
           </DialogTrigger>
           <DialogContent className="max-w-[95vw] sm:max-w-md">
             <DialogHeader>
-              <DialogTitle>{t("Audio Player")}</DialogTitle>
+              <DialogTitle>Audio Player</DialogTitle>
               <DialogDescription>
-                {data.chapter?.title || t("Chapter Audio")} • {languageName}
+                {data.chapter?.title || "Chapter Audio"} • {languageName}
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
               {/* Audio Player */}
               <div className="w-full">
                 <audio controls className="w-full" src={data.audioUrl} preload="metadata">
-                  {t("Your browser does not support the audio element.")}
+                  Your browser does not support the audio element.
                 </audio>
               </div>
-              
+
               {/* Audio Details */}
               <div className="space-y-2 text-sm">
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">{t("Language:")}</span>
+                  <span className="text-muted-foreground">Language:</span>
                   <Badge variant="secondary">{languageName}</Badge>
                 </div>
                 {data.chapter && (
                   <>
                     <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground">{t("Chapter:")}</span>
+                      <span className="text-muted-foreground">Chapter:</span>
                       <span className="font-medium">{data.chapter.title}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground">{t("Word Count:")}</span>
-                      <span className="font-medium">{data.chapter.wordCount} {t("words")}</span>
+                      <span className="text-muted-foreground">Word Count:</span>
+                      <span className="font-medium">{data.chapter.wordCount} words</span>
                     </div>
                   </>
                 )}
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">{t("Format:")}</span>
+                  <span className="text-muted-foreground">Format:</span>
                   <span className="font-medium">WAV</span>
                 </div>
               </div>
@@ -455,7 +455,7 @@ function AudioNode({
               {/* Download Button */}
               <Button onClick={handleDownload} className="w-full" variant="default">
                 <Download className="h-4 w-4 mr-2" />
-                {t("Download Audio")}
+                Download Audio
               </Button>
             </div>
           </DialogContent>
@@ -474,7 +474,7 @@ function AudioNode({
           }}
           style={{ pointerEvents: 'auto' }}
         >
-          <Checkbox 
+          <Checkbox
             checked={data.isSelected}
             onCheckedChange={(checked) => {
               data.onToggleSelect(data.nodeId)
@@ -492,12 +492,12 @@ function AudioNode({
 }
 
 function MergeNode({ data }: { data: { group: MergeGroup; onRemoveGroup: (groupId: string) => void; audioUrls: AudioUrlsMap } }) {
-  const { t } = useLingo()
+
   const [isDownloading, setIsDownloading] = useState(false)
 
   const handleDownloadMerged = async () => {
     setIsDownloading(true)
-    const toastId = toast.loading(t("Merging audio files..."))
+    const toastId = toast.loading("Merging audio files...")
 
     try {
       // Get actual audio file paths from the URLs
@@ -511,7 +511,7 @@ function MergeNode({ data }: { data: { group: MergeGroup; onRemoveGroup: (groupI
       }).filter(Boolean) as string[]
 
       console.log("Merging audio files:", audioFiles)
-      
+
       const response = await fetch('/api/merge-audio', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -524,7 +524,7 @@ function MergeNode({ data }: { data: { group: MergeGroup; onRemoveGroup: (groupI
       }
 
       const result = await response.json()
-      
+
       // Download the merged file
       const link = document.createElement('a')
       link.href = result.url
@@ -533,10 +533,10 @@ function MergeNode({ data }: { data: { group: MergeGroup; onRemoveGroup: (groupI
       link.click()
       document.body.removeChild(link)
 
-      toast.success(t("Merged audio download started!"), { id: toastId })
+      toast.success("Merged audio download started!", { id: toastId })
     } catch (error) {
       console.error("Download error:", error)
-      toast.error(error instanceof Error ? error.message : t("Failed to download merged audio"), { id: toastId })
+      toast.error(error instanceof Error ? error.message : "Failed to download merged audio", { id: toastId })
     } finally {
       setIsDownloading(false)
     }
@@ -546,13 +546,13 @@ function MergeNode({ data }: { data: { group: MergeGroup; onRemoveGroup: (groupI
     <>
       <Handle type="target" position={Position.Top} className="w-3 h-3" />
       <Handle type="source" position={Position.Bottom} className="w-3 h-3" />
-      
+
       <Card className="w-64 p-4 border shadow-sm bg-card bg-green-500/10 border-green-500/30">
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Link2 className="h-4 w-4 text-muted-foreground" />
-              <p className="text-sm font-medium">{t("Merge Group")}</p>
+              <p className="text-sm font-medium">Merge Group</p>
             </div>
             <div className="flex items-center gap-1">
               <DropdownMenu>
@@ -569,7 +569,7 @@ function MergeNode({ data }: { data: { group: MergeGroup; onRemoveGroup: (groupI
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem onClick={handleDownloadMerged} disabled={isDownloading}>
                     <Download className="h-3 w-3 mr-2" />
-                    {t("Download Merged")}
+                    Download Merged
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -587,12 +587,12 @@ function MergeNode({ data }: { data: { group: MergeGroup; onRemoveGroup: (groupI
             {data.group.language.toUpperCase()}
           </Badge>
           <div className="text-xs text-muted-foreground">
-            {data.group.audioNodes.length} {data.group.audioNodes.length > 1 ? t("audios") : t("audio")} {t("audios to merge")}
+            {data.group.audioNodes.length} {data.group.audioNodes.length > 1 ? "audios" : "audio"} to merge
           </div>
           <div className="flex flex-col gap-1">
             {data.group.audioNodes.map((audio, idx) => (
               <div key={audio.nodeId} className="text-xs bg-white dark:bg-gray-800 p-1 rounded">
-                {idx + 1}. {t("Chapter")} {audio.chapterId.split('-').pop()}
+                {idx + 1}. Chapter {audio.chapterId.split('-').pop()}
               </div>
             ))}
           </div>
@@ -643,7 +643,7 @@ export function PodcastFlow({
   isLoading,
   onStartNew,
 }: PodcastFlowProps) {
-  const { t } = useLingo()
+
   const [selectedAudioNodes, setSelectedAudioNodes] = useState<Set<string>>(new Set())
   const [mergeGroups, setMergeGroups] = useState<MergeGroup[]>([])
 
@@ -661,7 +661,7 @@ export function PodcastFlow({
 
   const createMergeGroup = useCallback(() => {
     if (selectedAudioNodes.size < 2) {
-      toast.error(t("Please select at least 2 audio nodes to merge"))
+      toast.error("Please select at least 2 audio nodes to merge")
       return
     }
 
@@ -676,7 +676,7 @@ export function PodcastFlow({
     // Check if all selected audios have the same language
     const languages = new Set(audioNodesInfo.map(a => a.language))
     if (languages.size > 1) {
-      toast.error(t("All selected audios must be in the same language"))
+      toast.error("All selected audios must be in the same language")
       return
     }
 
@@ -689,21 +689,21 @@ export function PodcastFlow({
 
     setMergeGroups((prev) => [...prev, newGroup])
     setSelectedAudioNodes(new Set())
-    toast.success(`${t("Merge group created with")} ${audioNodesInfo.length} ${audioNodesInfo.length > 1 ? t("audios") : t("audio")}`)
-  }, [selectedAudioNodes, t])
+    toast.success(`Merge group created with ${audioNodesInfo.length} ${audioNodesInfo.length > 1 ? "audios" : "audio"}`)
+  }, [selectedAudioNodes])
 
   const removeMergeGroup = useCallback((groupId: string) => {
     setMergeGroups((prev) => prev.filter(g => g.id !== groupId))
-    toast.success(t("Merge group removed"))
-  }, [t])
+    toast.success("Merge group removed")
+  }, [])
 
   const downloadAllSelected = useCallback(async () => {
     if (selectedAudioNodes.size < 1) {
-      toast.error(t("Please select at least one audio to download"))
+      toast.error("Please select at least one audio to download")
       return
     }
 
-    const toastId = toast.loading(t("Preparing download..."))
+    const toastId = toast.loading("Preparing download...")
 
     try {
       // Extract audio node info from selected nodes
@@ -747,18 +747,18 @@ export function PodcastFlow({
       link.click()
       document.body.removeChild(link)
 
-      toast.success(t("Download started!"), { id: toastId })
+      toast.success("Download started!", { id: toastId })
       setSelectedAudioNodes(new Set()) // Clear selection after download
     } catch (error) {
       console.error("Download error:", error)
-      toast.error(error instanceof Error ? error.message : t("Failed to download audio files"), { id: toastId })
+      toast.error(error instanceof Error ? error.message : "Failed to download audio files", { id: toastId })
     }
-  }, [selectedAudioNodes, audioUrls, t])
+  }, [selectedAudioNodes, audioUrls])
 
   const downloadAllAudios = useCallback(async () => {
     // Get all audio files from all chapters
     const allAudioFiles: string[] = []
-    
+
     chapters.forEach((chapter) => {
       const chapterAudioUrls = audioUrls[chapter.id] || {}
       Object.values(chapterAudioUrls).forEach((audioUrl) => {
@@ -772,11 +772,11 @@ export function PodcastFlow({
     })
 
     if (allAudioFiles.length === 0) {
-      toast.error(t("No audio files available to download"))
+      toast.error("No audio files available to download")
       return
     }
 
-    const toastId = toast.loading(t("Preparing download..."))
+    const toastId = toast.loading("Preparing download...")
 
     try {
       console.log("Zipping all audio files:", allAudioFiles)
@@ -802,12 +802,12 @@ export function PodcastFlow({
       link.click()
       document.body.removeChild(link)
 
-      toast.success(t("Download started!"), { id: toastId })
+      toast.success("Download started!", { id: toastId })
     } catch (error) {
       console.error("Download error:", error)
-      toast.error(error instanceof Error ? error.message : t("Failed to download audio files"), { id: toastId })
+      toast.error(error instanceof Error ? error.message : "Failed to download audio files", { id: toastId })
     }
-  }, [chapters, audioUrls, t])
+  }, [chapters, audioUrls])
 
   // Count total audio files
   const totalAudioCount = useMemo(() => {
@@ -850,13 +850,13 @@ export function PodcastFlow({
         const chapterAudioUrls = audioUrls[chapter.id] || {}
         const audioCount = Object.keys(chapterAudioUrls).length
         const color = CHAPTER_COLORS[index % CHAPTER_COLORS.length]
-        
+
         // Add chapter group background node
         const { width: groupWidth } = groupPositions[index]
         const groupX = startX + groupPositions[index].x - groupWidth / 2
         const groupHeight = audioCount > 0 ? 550 : 280
         const groupY = startY - 40
-        
+
         nodes.push({
           id: `group-${chapter.id}`,
           type: "chapterGroup",
@@ -869,11 +869,11 @@ export function PodcastFlow({
             color,
           },
         })
-        
+
         // Position relative to group parent (parent's 0,0 is its top-left corner)
         const relativeX = groupWidth / 2 - 140 // Center horizontally in group
         const relativeY = 80
-        
+
         nodes.push({
           id: `chapter-${chapter.id}`,
           type: "chapter",
@@ -888,22 +888,22 @@ export function PodcastFlow({
             onGenerateAudio,
           },
         })
-        
+
         Object.entries(chapterAudioUrls).forEach(([language, audioUrl], audioIndex) => {
           const audioNodeId = `audio-${chapter.id}-${language}`
           // Position audios relative to group's (0,0) 
           const audioRelativeX = (groupWidth / 2) - ((audioCount - 1) * audioSpacing) / 2 + audioIndex * audioSpacing - 32 // Center audios in group (32 = half of 64px node width)
           const audioRelativeY = 360
-          
+
           nodes.push({
             id: audioNodeId,
             type: "audio",
             position: { x: audioRelativeX, y: audioRelativeY },
             parentId: `group-${chapter.id}`,
             extent: "parent",
-            data: { 
-              audioUrl, 
-              language, 
+            data: {
+              audioUrl,
+              language,
               chapterId: chapter.id,
               isSelected: selectedAudioNodes.has(audioNodeId),
               onToggleSelect: toggleAudioSelection,
@@ -913,7 +913,7 @@ export function PodcastFlow({
           })
         })
       })
-      
+
       // Add merge nodes
       mergeGroups.forEach((group) => {
         const mergeY = startY + audioYOffset + 250
@@ -954,23 +954,23 @@ export function PodcastFlow({
       })
     }
 
-      // Add edges from audio nodes to merge nodes
-      mergeGroups.forEach((group) => {
-        group.audioNodes.forEach((audioNode) => {
-          edges.push({
-            id: `audio-${audioNode.nodeId}-merge-${group.id}`,
-            source: audioNode.nodeId,
-            target: group.id,
-            type: "smoothstep",
-            animated: true,
-            style: { stroke: "hsl(150, 50%, 50%)", strokeWidth: 2 },
-            markerEnd: {
-              type: MarkerType.ArrowClosed,
-              color: "hsl(150, 50%, 50%)",
-            },
-          })
+    // Add edges from audio nodes to merge nodes
+    mergeGroups.forEach((group) => {
+      group.audioNodes.forEach((audioNode) => {
+        edges.push({
+          id: `audio-${audioNode.nodeId}-merge-${group.id}`,
+          source: audioNode.nodeId,
+          target: group.id,
+          type: "smoothstep",
+          animated: true,
+          style: { stroke: "hsl(150, 50%, 50%)", strokeWidth: 2 },
+          markerEnd: {
+            type: MarkerType.ArrowClosed,
+            color: "hsl(150, 50%, 50%)",
+          },
         })
       })
+    })
 
     return edges
   }, [chapters, audioUrls, mergeGroups])
@@ -983,112 +983,112 @@ export function PodcastFlow({
     setNodes((currentNodes) => {
       const newNodes: Node[] = []
 
-    if (chapters.length > 0) {
-      const startY = 300
-      const audioSpacing = 220
-      const audioYOffset = 250
-      const minSpacing = 50 // Minimum gap between chapter groups
+      if (chapters.length > 0) {
+        const startY = 300
+        const audioSpacing = 220
+        const audioYOffset = 250
+        const minSpacing = 50 // Minimum gap between chapter groups
 
-      // First pass: calculate all group widths
-      const groupWidths = chapters.map((chapter) => {
-        const chapterAudioUrls = audioUrls[chapter.id] || {}
-        const audioCount = Object.keys(chapterAudioUrls).length
-        return Math.max(420, audioCount * audioSpacing + 180)
-      })
-
-      // Calculate positions based on actual widths to prevent overlaps
-      let currentX = 0
-      const groupPositions = groupWidths.map((width, index) => {
-        const x = currentX + width / 2
-        currentX += width + minSpacing
-        return { x, width }
-      })
-
-      // Center all groups around the center point
-      const totalWidth = currentX - minSpacing
-      const centerX = 500
-      const startX = centerX - totalWidth / 2
-
-      chapters.forEach((chapter, index) => {
-        const chapterAudioUrls = audioUrls[chapter.id] || {}
-        const audioCount = Object.keys(chapterAudioUrls).length
-        const color = CHAPTER_COLORS[index % CHAPTER_COLORS.length]
-        
-        // Add chapter group background node
-        const { width: groupWidth } = groupPositions[index]
-        const groupX = startX + groupPositions[index].x - groupWidth / 2
-        const groupHeight = audioCount > 0 ? 550 : 280
-        const groupY = startY - 60
-        
-        newNodes.push({
-          id: `group-${chapter.id}`,
-          type: "chapterGroup",
-          position: { x: groupX, y: groupY },
-          style: { width: groupWidth, height: groupHeight },
-          data: {
-            chapterNumber: index + 1,
-            chapterTitle: chapter.title,
-            audioCount,
-            color,
-          },
+        // First pass: calculate all group widths
+        const groupWidths = chapters.map((chapter) => {
+          const chapterAudioUrls = audioUrls[chapter.id] || {}
+          const audioCount = Object.keys(chapterAudioUrls).length
+          return Math.max(420, audioCount * audioSpacing + 180)
         })
-        
-        // Position relative to group parent (parent's 0,0 is its top-left corner)
-        const relativeX = groupWidth / 2 - 140 // Center horizontally in group
-        const relativeY = 80
-        
-        newNodes.push({
-          id: `chapter-${chapter.id}`,
-          type: "chapter",
-          position: { x: relativeX, y: relativeY },
-          parentId: `group-${chapter.id}`,
-          extent: "parent",
-          data: {
-            chapter,
-            translations: translations[chapter.id] || {},
-            audioUrls: audioUrls[chapter.id] || {},
-            onTranslate,
-            onGenerateAudio,
-          },
+
+        // Calculate positions based on actual widths to prevent overlaps
+        let currentX = 0
+        const groupPositions = groupWidths.map((width, index) => {
+          const x = currentX + width / 2
+          currentX += width + minSpacing
+          return { x, width }
         })
-        
-        Object.entries(chapterAudioUrls).forEach(([language, audioUrl], audioIndex) => {
-          const audioNodeId = `audio-${chapter.id}-${language}`
-          // Position audios relative to group's (0,0) 
-          const audioRelativeX = (groupWidth / 2) - ((audioCount - 1) * audioSpacing) / 2 + audioIndex * audioSpacing - 32 // Center audios in group (32 = half of 64px node width)
-          const audioRelativeY = 360
-          
+
+        // Center all groups around the center point
+        const totalWidth = currentX - minSpacing
+        const centerX = 500
+        const startX = centerX - totalWidth / 2
+
+        chapters.forEach((chapter, index) => {
+          const chapterAudioUrls = audioUrls[chapter.id] || {}
+          const audioCount = Object.keys(chapterAudioUrls).length
+          const color = CHAPTER_COLORS[index % CHAPTER_COLORS.length]
+
+          // Add chapter group background node
+          const { width: groupWidth } = groupPositions[index]
+          const groupX = startX + groupPositions[index].x - groupWidth / 2
+          const groupHeight = audioCount > 0 ? 550 : 280
+          const groupY = startY - 60
+
           newNodes.push({
-            id: audioNodeId,
-            type: "audio",
-            position: { x: audioRelativeX, y: audioRelativeY },
-            parentId: `group-${chapter.id}`,
-            extent: "parent",
-            data: { 
-              audioUrl, 
-              language, 
-              chapterId: chapter.id,
-              isSelected: selectedAudioNodes.has(audioNodeId),
-              onToggleSelect: toggleAudioSelection,
-              nodeId: audioNodeId,
-              chapter,
+            id: `group-${chapter.id}`,
+            type: "chapterGroup",
+            position: { x: groupX, y: groupY },
+            style: { width: groupWidth, height: groupHeight },
+            data: {
+              chapterNumber: index + 1,
+              chapterTitle: chapter.title,
+              audioCount,
+              color,
             },
           })
+
+          // Position relative to group parent (parent's 0,0 is its top-left corner)
+          const relativeX = groupWidth / 2 - 140 // Center horizontally in group
+          const relativeY = 80
+
+          newNodes.push({
+            id: `chapter-${chapter.id}`,
+            type: "chapter",
+            position: { x: relativeX, y: relativeY },
+            parentId: `group-${chapter.id}`,
+            extent: "parent",
+            data: {
+              chapter,
+              translations: translations[chapter.id] || {},
+              audioUrls: audioUrls[chapter.id] || {},
+              onTranslate,
+              onGenerateAudio,
+            },
+          })
+
+          Object.entries(chapterAudioUrls).forEach(([language, audioUrl], audioIndex) => {
+            const audioNodeId = `audio-${chapter.id}-${language}`
+            // Position audios relative to group's (0,0) 
+            const audioRelativeX = (groupWidth / 2) - ((audioCount - 1) * audioSpacing) / 2 + audioIndex * audioSpacing - 32 // Center audios in group (32 = half of 64px node width)
+            const audioRelativeY = 360
+
+            newNodes.push({
+              id: audioNodeId,
+              type: "audio",
+              position: { x: audioRelativeX, y: audioRelativeY },
+              parentId: `group-${chapter.id}`,
+              extent: "parent",
+              data: {
+                audioUrl,
+                language,
+                chapterId: chapter.id,
+                isSelected: selectedAudioNodes.has(audioNodeId),
+                onToggleSelect: toggleAudioSelection,
+                nodeId: audioNodeId,
+                chapter,
+              },
+            })
+          })
         })
-      })
-      
-      // Add merge nodes
-      mergeGroups.forEach((group) => {
-        const mergeY = startY + audioYOffset + 250
-        const mergeX = 500
-        newNodes.push({
-          id: group.id,
-          type: "merge",
-          position: { x: mergeX, y: mergeY },
-          data: { group, onRemoveGroup: removeMergeGroup, audioUrls },
+
+        // Add merge nodes
+        mergeGroups.forEach((group) => {
+          const mergeY = startY + audioYOffset + 250
+          const mergeX = 500
+          newNodes.push({
+            id: group.id,
+            type: "merge",
+            position: { x: mergeX, y: mergeY },
+            data: { group, onRemoveGroup: removeMergeGroup, audioUrls },
+          })
         })
-      })
-    }
+      }
 
       return newNodes
     })
@@ -1116,7 +1116,7 @@ export function PodcastFlow({
           })
         })
       })
-      
+
       // Add edges from audio nodes to merge nodes
       mergeGroups.forEach((group) => {
         group.audioNodes.forEach((audioNode) => {
@@ -1170,29 +1170,29 @@ export function PodcastFlow({
         </div>
         <div className="flex flex-col">
           <h1 className="text-xs sm:text-sm font-semibold text-foreground leading-tight">
-            {t("Podcastify")}
+            Lingocast
           </h1>
-          <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight hidden sm:block">{t("Blog to Podcast Converter")}</p>
+          <p className="text-[10px] sm:text-xs text-muted-foreground leading-tight hidden sm:block">Blog to Podcast Converter</p>
         </div>
       </div>
-      
+
       {/* Legend - Below Logo with spacing */}
       <div className="absolute top-12 left-2 sm:top-16 sm:left-4 z-10 hidden md:block">
         <div className="flex flex-col gap-1.5">
-          <p className="text-xs font-medium text-muted-foreground mb-0.5">{t("LEGEND")}</p>
+          <p className="text-xs font-medium text-muted-foreground mb-0.5">LEGEND</p>
           <div className="flex items-center gap-2">
             <div className="w-2.5 h-2.5 rounded-full bg-foreground/80" />
-            <p className="text-xs text-muted-foreground">{t("Chapter Node")}</p>
+            <p className="text-xs text-muted-foreground">Chapter Node</p>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 rounded-full border border-border bg-card shadow-sm flex items-center justify-center">
               <div className="w-2 h-2 bg-muted rounded border border-border" />
             </div>
-            <p className="text-xs text-muted-foreground">{t("Audio Node")}</p>
+            <p className="text-xs text-muted-foreground">Audio Node</p>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2.5 h-2.5 rounded-full bg-green-500/40" />
-            <p className="text-xs text-muted-foreground">{t("Merge Group")}</p>
+            <p className="text-xs text-muted-foreground">Merge Group</p>
           </div>
         </div>
       </div>
@@ -1220,23 +1220,23 @@ export function PodcastFlow({
             size="icon"
             onClick={downloadAllAudios}
             className="h-8 w-8 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
-            title={t("Download all audio files")}
+            title="Download all audio files"
           >
             <Download className="h-4 w-4" />
           </Button>
         )}
       </div>
-      
+
       {selectedAudioNodes.size > 0 && (
         <div className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 z-10 w-[calc(100%-2rem)] sm:w-auto max-w-[90vw]">
           <Card className="p-3 sm:p-4 shadow-xl border-2 border-blue-500 bg-background/95 backdrop-blur">
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
               <div className="flex flex-col gap-1 flex-1 sm:flex-initial">
                 <p className="text-xs sm:text-sm font-semibold">
-                  {selectedAudioNodes.size} {selectedAudioNodes.size > 1 ? t("audios") : t("audio")} {t("selected")}
+                  {selectedAudioNodes.size} {selectedAudioNodes.size > 1 ? "audios" : "audio"} selected
                 </p>
                 <p className="text-[10px] sm:text-xs text-muted-foreground">
-                  {t("Select audios with the same language to merge")}
+                  Select audios with the same language to merge
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-2">
@@ -1248,7 +1248,7 @@ export function PodcastFlow({
                   className="gap-2 w-full sm:w-auto"
                 >
                   <FolderArchive className="h-3 w-3 sm:h-4 sm:w-4" />
-                  {t("Download All")}
+                  Download All
                 </Button>
                 <Button
                   onClick={createMergeGroup}
@@ -1257,7 +1257,7 @@ export function PodcastFlow({
                   className="gap-2 w-full sm:w-auto"
                 >
                   <Link2 className="h-3 w-3 sm:h-4 sm:w-4" />
-                  {t("Create Merge Group")}
+                  Create Merge Group
                 </Button>
                 <Button
                   onClick={() => setSelectedAudioNodes(new Set())}
@@ -1265,7 +1265,7 @@ export function PodcastFlow({
                   size="sm"
                   className="w-full sm:w-auto"
                 >
-                  {t("Clear")}
+                  Clear
                 </Button>
               </div>
             </div>

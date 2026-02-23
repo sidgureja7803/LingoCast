@@ -1,38 +1,38 @@
 export const TRANSLATION_CONFIG = {
   // Cache duration in milliseconds (7 days)
   CACHE_TTL: 7 * 24 * 60 * 60 * 1000,
-  
+
   // Maximum cache size in bytes (5MB)
   MAX_CACHE_SIZE: 5 * 1024 * 1024,
-  
+
   // Enable automatic component change detection
   AUTO_INVALIDATION: true,
-  
+
   // Enable background cache validation
   BACKGROUND_VALIDATION: true,
-  
+
   // Debug mode for development
   DEBUG_MODE: process.env.NODE_ENV === 'development',
-  
+
   // Cache key prefixes
   CACHE_KEYS: {
-    UI_TRANSLATIONS: 'podcastify_ui_translations',
-    COMPONENT_HASHES: 'podcastify_component_hashes',
-    TRANSLATION_VERSION: 'podcastify_translation_version',
+    UI_TRANSLATIONS: 'lingocast_ui_translations',
+    COMPONENT_HASHES: 'lingocast_component_hashes',
+    TRANSLATION_VERSION: 'lingocast_translation_version',
   },
-  
+
   // Current version of the translation system
-  TRANSLATION_VERSION: '1.0.0',
-  
+  TRANSLATION_VERSION: '2.0.0',
+
   // Performance metrics tracking
   TRACK_METRICS: process.env.NODE_ENV === 'development',
-  
+
   // Fallback to API if cache fails
   FALLBACK_TO_API: true,
-  
+
   // Minimum time between API calls for same content (in milliseconds)
   API_COOLDOWN: 1000,
-  
+
   // Maximum retry attempts for failed translations
   MAX_RETRY_ATTEMPTS: 3,
 } as const

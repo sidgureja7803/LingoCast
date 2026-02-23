@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import "./external-styles.css";
-import { LingoProvider } from "@/lib/lingo";
-import { TranslationLoader } from "@/components/translation-loader";
+import { LingoProvider } from "@lingo.dev/compiler/react";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -69,23 +68,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.className} antialiased`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
+    <LingoProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={`${geistSans.className} antialiased`}
         >
-          <LingoProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
             {children}
-            <TranslationLoader />
             <Toaster />
-          </LingoProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+          </ThemeProvider>
+        </body>
+      </html>
+    </LingoProvider>
   );
 }

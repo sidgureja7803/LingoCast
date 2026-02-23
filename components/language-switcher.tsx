@@ -1,6 +1,6 @@
 "use client"
 
-import { useLingo } from "@/lib/lingo"
+import { useLingoContext } from "@lingo.dev/compiler/react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -35,16 +35,15 @@ const languages = [
 ]
 
 export function LanguageSwitcher() {
-  const { locale, setLocale, isLoading } = useLingo()
+  const { locale, setLocale } = useLingoContext()
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button 
-          variant="ghost" 
-          size="sm" 
+        <Button
+          variant="ghost"
+          size="sm"
           className="h-8 min-w-8 px-2"
-          disabled={isLoading}
         >
           <Globe className="h-4 w-4" />
           <span className="sr-only">Select language</span>
@@ -58,9 +57,8 @@ export function LanguageSwitcher() {
         {languages.map((language) => (
           <DropdownMenuItem
             key={language.code}
-            onClick={() => setLocale(language.code)}
+            onClick={() => setLocale(language.code as any)}
             className="cursor-pointer px-2 py-1.5"
-            disabled={isLoading}
           >
             <span className="flex-1 text-sm">{language.name}</span>
             {locale === language.code && (

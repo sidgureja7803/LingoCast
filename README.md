@@ -1,258 +1,242 @@
-# Lingocast - Multilingual Podcast Generator
+# 🎙️ LingoCast — Multilingual Podcast Generator
 
+> **Transform any blog post into a multilingual podcast in seconds.**  
+> Powered by [Lingo.dev](https://lingo.dev) Compiler + SDK for seamless internationalization.
 
-Lingocast is a modern web application that transforms blog posts into multilingual podcast audio files. Simply paste a blog URL, and the application will scrape the content, generate chapters, translate them into multiple languages, and create high-quality audio files for each language.
+---
 
-## Technologies Used
+## 🌍 Lingo.dev Integration
 
-### Frontend
-- **Next.js 16** - React framework with App Router
-- **React 19** - UI library
-- **TypeScript** - Type-safe JavaScript
-- **Tailwind CSS 4** - Utility-first CSS framework
-- **Shadcn UI** - Component library built on Radix UI
-- **React Flow** - Node-based canvas for visualizing podcast workflow
-- **Lingo.dev** - Internationalization (i18n) library
-- **Next Themes** - Dark/light theme support
-- **Sonner** - Toast notifications
+LingoCast deeply integrates **three layers** of the Lingo.dev ecosystem:
 
-### Backend & Processing
-- **Inngest** - Background job processing for audio generation (integrated with Vercel)
-- **Mozilla Readability** - Content extraction from web pages
-- **OpenRouter** - AI-powered content summarization
-- **Google Gemini** - Text-to-Speech API for audio generation
-- **Lingo.dev** - AI-powered translation service
+| Layer | Package | Purpose |
+|-------|---------|---------|
+| **🔧 Compiler** | `@lingo.dev/compiler` | Build-time JSX text translation — zero runtime overhead, automatic text extraction |
+| **📡 SDK** | `lingo.dev` | Runtime translation of dynamic content (blog chapters, user-generated text) |
+| **🔑 API** | `LINGODOTDEV_API_KEY` | Powers both Compiler and SDK with lingo.dev's translation models |
 
-### Utilities
-- **JSZip** - Creating zip archives for audio downloads
-- **Lucide React** - Icon library
-- **Date-fns** - Date manipulation
+### How the Compiler Works
 
-## File Structure
+The **Lingo.dev Compiler** (`@lingo.dev/compiler/next`) wraps the Next.js config and automatically:
+
+1. **Extracts** all translatable JSX text at build time (found **69 entries** automatically)
+2. **Translates** them into 18 target locales using lingo.dev's AI models
+3. **Injects** a `LingoProvider` + `useTranslation()` hooks — no manual `t()` calls needed
+4. **Persists** locale preference via cookies (`lingocast-locale`)
+5. Uses **pseudotranslations** in development for instant feedback without API costs
+
+```typescript
+// next.config.ts — the entire i18n setup
+import { withLingo } from "@lingo.dev/compiler/next";
+
+export default async function (): Promise<NextConfig> {
+  return await withLingo(nextConfig, {
+    sourceLocale: "en",
+    targetLocales: ["es", "fr", "de", "it", "pt", "nl", "pl", "ru", "ja", "ko", "zh", "ar", "hi", "tr", "sv", "no", "da", "fi"],
+    models: "lingo.dev",
+    buildMode: "translate",
+    dev: { usePseudotranslator: true },
+    localePersistence: { type: "cookie", config: { name: "lingocast-locale", maxAge: 31536000 } },
+  });
+};
+```
+
+### SDK for Dynamic Content
+
+For content that can't be translated at build time (scraped blog chapters), LingoCast uses the **Lingo.dev SDK** via an API route:
+
+```typescript
+// app/api/translate/route.ts
+import Lingo from "lingo.dev";
+const lingo = new Lingo({ apiKey: process.env.LINGO_API_KEY });
+
+const result = await lingo.localizeText(text, { sourceLocale: "en", targetLocale: "es" });
+```
+
+---
+
+## ✨ Features
+
+### Core Workflow
+- **URL → Podcast** — Paste any blog URL, get a multilingual podcast
+- **AI Chapter Generation** — Automatically structures content into 1–10 chapters
+- **Text-to-Speech** — Google Gemini-powered studio-quality voice synthesis
+- **18+ Languages** — English, Spanish, French, German, Italian, Portuguese, Dutch, Polish, Russian, Japanese, Korean, Chinese, Arabic, Hindi, Turkish, Swedish, Norwegian, Danish, Finnish
+
+### Interactive Canvas
+- **React Flow** node-based workflow visualization
+- **Chapter Nodes** — view, translate, and generate audio per chapter
+- **Audio Nodes** — play, download, and merge audio files
+- **Merge Groups** — combine multiple chapter audios into full episodes
+- **Multi-select** — batch download or merge audio files
+
+### UI/UX
+- **Dark/Light Theme** — smooth transitions with `next-themes`
+- **Language Switcher** — powered by Lingo.dev Compiler's `useLingoContext`
+- **Responsive Design** — works on desktop and mobile
+- **Session Persistence** — auto-saves progress across reloads
+- **Toast Notifications** — real-time feedback via Sonner
+
+### Smart Caching
+- **Chapter Cache** — URL + chapter count aware
+- **Translation Cache** — avoids re-translating identical content
+- **Audio Cache** — persists generated audio URLs
+- **Session Management** — full state restoration on reload
+
+---
+
+## 🛠️ Tech Stack
+
+| Category | Technology |
+|----------|-----------|
+| Framework | Next.js 16 (App Router, Turbopack) |
+| Language | TypeScript, React 19 |
+| Styling | Tailwind CSS 4, Shadcn UI |
+| i18n (UI) | **Lingo.dev Compiler** (`@lingo.dev/compiler`) |
+| i18n (Content) | **Lingo.dev SDK** (`lingo.dev`) |
+| Canvas | React Flow |
+| Audio | Google Gemini TTS API |
+| AI | OpenRouter (summarization) |
+| Jobs | Inngest (background audio generation) |
+| Scraping | Mozilla Readability + JSDOM |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+
+- npm (or yarn/pnpm)
+
+### 1. Clone & Install
+
+```bash
+git clone <repository-url>
+cd lingocast
+npm install
+```
+
+### 2. Environment Variables
+
+Copy `.env.example` and fill in your keys:
+
+```bash
+cp .env.example .env
+```
+
+```env
+# Required
+LINGODOTDEV_API_KEY=your_lingodotdev_api_key   # Lingo.dev Compiler + SDK
+LINGO_API_KEY=your_lingo_api_key               # Lingo.dev SDK (chapter translations)
+OPENROUTER_API_KEY=your_openrouter_api_key     # AI summarization
+GEMINI_API_KEY=your_gemini_api_key             # Text-to-Speech
+
+# Optional
+NEXT_PUBLIC_APP_URL=https://lingocast.vercel.app
+```
+
+### 3. Run Development Server
+
+```bash
+npm run dev
+```
+
+The Lingo.dev Compiler will start automatically with pseudotranslations enabled:
+```
+[Lingo.dev] 📝 Using pseudotranslator (dev.usePseudotranslator enabled)
+[Lingo.dev] Translation server started successfully on port: 60000
+```
+
+### 4. (Optional) Start Inngest Dev Server
+
+For background audio generation:
+
+```bash
+npx inngest-cli@latest dev
+```
+
+### 5. Open Browser
+
+Navigate to `http://localhost:3000`
+
+---
+
+## 📁 Project Structure
 
 ```
 lingocast/
 ├── app/
-│   ├── api/                    # API routes
-│   │   ├── chapters/           # Chapter generation endpoint
-│   │   ├── scrape/             # Blog content scraping
-│   │   ├── summarize-chapters/ # AI summarization
-│   │   ├── translate-chapter/  # Translation endpoints
-│   │   ├── tts/                # Text-to-speech (sync)
-│   │   ├── tts-async/          # Text-to-speech (async)
-│   │   ├── merge-audio/        # Audio merging
-│   │   ├── zip-audio/          # Audio zipping
-│   │   ├── jobs/               # Job status tracking
-│   │   └── inngest/            # Inngest webhook
-│   ├── globals.css             # Global styles and animations
-│   ├── layout.tsx              # Root layout
-│   └── page.tsx                # Main home page
+│   ├── api/
+│   │   ├── chapters/              # Chapter generation
+│   │   ├── scrape/                # Blog content scraping
+│   │   ├── summarize-chapters/    # AI summarization
+│   │   ├── translate/             # Lingo.dev SDK translation
+│   │   ├── translate-chapter/     # Chapter translation
+│   │   ├── tts/                   # Text-to-Speech (sync)
+│   │   ├── tts-async/             # Text-to-Speech (async)
+│   │   ├── merge-audio/           # Audio merging
+│   │   ├── zip-audio/             # Zip packaging
+│   │   ├── jobs/                  # Job status tracking
+│   │   └── inngest/               # Inngest webhook
+│   ├── lingo/                     # Compiler-generated translation metadata
+│   ├── globals.css
+│   ├── layout.tsx                 # Root layout with LingoProvider
+│   └── page.tsx                   # Main page
 ├── components/
-│   ├── podcast-flow.tsx        # Main canvas component
-│   ├── chapter-card.tsx        # Chapter display card
-│   ├── loading-screen.tsx      # Loading states
-│   ├── language-switcher.tsx   # Language selection
-│   ├── theme-toggle.tsx        # Dark/light theme toggle
-│   ├── translation-loader.tsx # i18n loader
-│   ├── LightRays.tsx          # Background effect
-│   ├── PrismaticBurst.tsx     # Background effect
-│   └── ui/                     # Shadcn UI components
+│   ├── podcast-flow.tsx           # React Flow canvas
+│   ├── chapter-card.tsx           # Chapter display
+│   ├── landing-page.tsx           # Landing page hero
+│   ├── language-switcher.tsx      # Lingo.dev Compiler locale switcher
+│   ├── loading-screen.tsx         # Loading states
+│   ├── theme-toggle.tsx           # Dark/light toggle
+│   ├── LightRays.tsx             # Background animation
+│   ├── PrismaticBurst.tsx        # Background animation
+│   └── ui/                       # Shadcn components
 ├── lib/
-│   ├── cache.ts               # LocalStorage caching
-│   ├── lingo.tsx              # i18n configuration
-│   ├── inngest/               # Inngest client and functions
-│   │   ├── client.ts
-│   │   └── functions.ts
-│   ├── jobs-store.ts          # Job state management
-│   └── utils.ts               # Utility functions
-├── hooks/
-│   └── use-mobile.ts          # Mobile detection hook
-├── public/
-│   └── audio/                 # Generated audio files storage
-├── package.json
-├── tsconfig.json
-├── next.config.ts
-└── README.md
+│   ├── lingo.tsx                  # Lingo.dev Compiler wrapper
+│   ├── cache.ts                   # LocalStorage caching
+│   ├── inngest/                   # Background job config
+│   └── utils.ts
+├── config/
+│   └── translation-config.ts     # Translation system config
+├── next.config.ts                 # withLingo() Compiler integration
+├── .env.example
+└── package.json
 ```
 
-## How to Download and Run
+---
 
-### Prerequisites
-- Node.js 18+ installed
-- npm, yarn, pnpm, or bun package manager
-- OpenRouter API key (for AI features)
-- Google Gemini API key (for Text-to-Speech)
-- Lingo.dev API key (for translation)
-- Inngest account (for background job processing)
+## 🏗️ Build & Deploy
 
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd lingocast
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   # or
-   yarn install
-   # or
-   pnpm install
-   ```
-
-3. **Set up environment variables**
-   Create a `.env.local` file in the root directory:
-   ```env
-   # API Keys
-   OPENROUTER_API_KEY=your_openrouter_api_key
-   GEMINI_API_KEY=your_gemini_api_key
-   LINGO_API_KEY=your_lingo_api_key
-   ```
-
-4. **Set up Inngest for local development**
-   
-   In a separate terminal, start the Inngest Dev Server:
-   ```bash
-   npx inngest-cli@latest dev
-   ```
-   
-   This will:
-   - Start the Inngest Dev Server (usually on `http://localhost:8288`)
-   - Display an Event Key in the terminal
-   
-   **Keep this terminal running** while developing.
-
-5. **Run the development server**
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   # or
-   pnpm dev
-   ```
-
-6. **Open your browser**
-   Navigate to `http://localhost:3000` (or the port shown in terminal)
-
-### Build for Production
+### Production Build
 
 ```bash
-npm run build
+npm run build    # Compiler generates translations for all 18 locales
 npm start
 ```
 
-## Production Deployment
-
 ### Deploy to Vercel
 
-1. **Install Inngest Vercel Integration**
-   - Go to [vercel.com/integrations](https://vercel.com/integrations)
-   - Search for "Inngest" and install the integration
-   - This automatically sets `INNGEST_EVENT_KEY` and `INNGEST_SIGNING_KEY` environment variables
+1. Install the **Inngest** Vercel integration
+2. Add environment variables in Vercel dashboard
+3. Push to Git — Vercel deploys automatically
 
-2. **Add Environment Variables in Vercel**
-   
-   In your Vercel project settings, add:
-   ```env
-   OPENROUTER_API_KEY=your_openrouter_api_key
-   GEMINI_API_KEY=your_gemini_api_key
-   LINGO_API_KEY=your_lingo_api_key
-   NEXT_PUBLIC_APP_URL=https://your-app.vercel.app
-   ```
-   
-   **Note:** `INNGEST_EVENT_KEY` and `INNGEST_SIGNING_KEY` are automatically set by the Vercel Inngest integration - you don't need to add them manually.
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `LINGODOTDEV_API_KEY` | Yes | Lingo.dev Compiler + API |
+| `LINGO_API_KEY` | Yes | Lingo.dev SDK |
+| `OPENROUTER_API_KEY` | Yes | AI summarization |
+| `GEMINI_API_KEY` | Yes | Google Gemini TTS |
+| `NEXT_PUBLIC_APP_URL` | Yes | Production URL |
 
-3. **Deploy**
-   - Push your code to your Git repository
-   - Vercel will automatically deploy
-   - Your Inngest functions will appear in the Inngest dashboard automatically
+---
 
-### Environment Variables Reference
+## 📄 License
 
-| Variable | Required | Description | Auto-set by |
-|----------|----------|-------------|-------------|
-| `OPENROUTER_API_KEY` | Yes | OpenRouter API key for AI summarization | - |
-| `GEMINI_API_KEY` | Yes | Google Gemini API key for Text-to-Speech | - |
-| `LINGO_API_KEY` | Yes | Lingo.dev API key for translation | - |
-| `INNGEST_EVENT_KEY` | Yes | Inngest event key | Vercel Integration (prod) / Dev Server (local) |
-| `INNGEST_SIGNING_KEY` | Yes | Inngest signing key | Vercel Integration (prod only) |
-| `NEXT_PUBLIC_APP_URL` | Yes | Your app URL (for production) | - |
-| `OPENROUTER_REFERER_URL` | Optional | Referer URL for OpenRouter | Defaults to `NEXT_PUBLIC_APP_URL` |
+MIT
 
-## Current Features
+---
 
-### Core Functionality
-- **Blog URL Input** - Paste any blog URL to extract content
-- **Chapter Generation** - Automatically generates chapters from blog content
-- **Customizable Chapter Count** - Select 1-10 chapters for summarization (default: 3)
-- **Content Scraping** - Extracts clean text content from web pages using Mozilla Readability
-- **AI Summarization** - Uses OpenAI to summarize content into specified number of chapters
-
-### Multilingual Support
-- **18+ Languages** - Support for English, Spanish, French, German, Italian, Portuguese, Dutch, Polish, Russian, Japanese, Korean, Chinese, Arabic, Hindi, Turkish, Swedish, Norwegian, Danish, and Finnish
-- **Translation** - Automatic translation of chapters into selected languages
-- **Language Switcher** - Easy language selection with visual indicators
-
-### Audio Generation
-- **Text-to-Speech** - Generates high-quality audio files for each chapter and language
-- **Background Processing** - Async audio generation using Inngest for better performance
-- **Audio Player** - Built-in audio player in modal for preview
-- **Download Options**:
-  - Individual audio downloads
-  - Bulk download (zip all selected audios)
-  - Merge multiple audios of the same language
-
-### User Interface
-- **Interactive Canvas** - React Flow-based visual workflow representation
-- **Node-Based Design**:
-  - Chapter nodes with content viewing
-  - Circular audio nodes with language indicators
-  - Merge group nodes for combining audios
-- **Dark/Light Theme** - Full theme support with smooth transitions
-- **Responsive Design** - Works on desktop and mobile devices
-- **Session Persistence** - Automatically saves and restores work on page reload
-
-### Caching System
-- **Smart Caching** - Caches chapters, translations, and audio files
-- **Chapter Count Aware** - Cache is specific to URL + chapter count combination
-- **LocalStorage** - Client-side caching for faster subsequent loads
-- **Session Management** - Maintains state across page reloads
-
-### Advanced Features
-- **Audio Selection** - Multi-select audio nodes with checkboxes
-- **Merge Groups** - Create groups to merge multiple audio files
-- **Dynamic Layout** - Auto-adjusting chapter rectangles to prevent overlaps
-- **Visual Feedback**:
-  - Animated gradient borders during audio generation
-  - Loading states and progress indicators
-  - Toast notifications for user actions
-- **Background Processing** - Audio generation runs in the background via Inngest for better performance
-
-## Future Scope
-
-### Planned Features
-- **Export Formats** - Support for MP3, OGG, and other audio formats
-- **Audio Quality Settings** - Configurable bitrate and sample rate
-- **Voice Selection** - Choose different voices per language
-- **Playback Speed Control** - Adjust audio playback speed
-- **Chapter Timestamps** - Add timestamps to audio files
-- **Batch Processing** - Process multiple URLs at once
-- **Cloud Storage Integration** - Save to Google Drive, Dropbox, etc.
-- **Podcast RSS Feed Generation** - Auto-generate RSS feeds for podcast platforms
-- **Custom Voice Training** - Upload custom voice samples
-- **Audio Effects** - Add background music, sound effects
-- **Collaboration** - Share projects with team members
-- **Analytics Dashboard** - Track usage and generation statistics
-- **API Access** - RESTful API for programmatic access
-- **Webhook Support** - Notify external services on completion
-- **Mobile App** - Native iOS and Android applications
-
-### Technical Improvements
-- **Performance Optimization** - Further optimize audio generation pipeline
-- **Caching Strategy** - Implement server-side caching
-- **Error Recovery** - Better error handling and retry mechanisms
-- **Testing** - Comprehensive unit and integration tests
-- **Documentation** - API documentation and developer guides
-- **Accessibility** - Enhanced screen reader support and keyboard navigation
+<p align="center">
+  Built with ❤️ using <a href="https://lingo.dev">Lingo.dev</a>
+</p>

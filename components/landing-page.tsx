@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { useLingo } from "@/lib/lingo"
+
 import {
     Globe,
     Zap,
@@ -19,7 +19,7 @@ interface LandingPageProps {
 }
 
 export function LandingPage({ onGetStarted }: LandingPageProps) {
-    const { t } = useLingo()
+
 
     const features = [
         {
