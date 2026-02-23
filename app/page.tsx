@@ -94,6 +94,15 @@ export default function Home() {
       setTranslations(session.translations)
       setAudioUrlsState(session.audioUrls)
       toast.success("Restored previous session")
+
+      if (window.location.pathname !== '/podcast') {
+        window.history.replaceState(null, '', '/podcast')
+      }
+      setShowLanding(false)
+    } else {
+      if (window.location.pathname !== '/') {
+        window.history.replaceState(null, '', '/')
+      }
     }
   }, [])
 
@@ -119,10 +128,11 @@ export default function Home() {
     setError(null)
     setChapterCount("3")
     setSteps([
-      { id: "scrape", label: "Scraping blog content", status: "pending" },
+      { id: "scrape", label: "Extracting content from the blog", status: "pending" },
       { id: "chapters", label: "Generating chapters", status: "pending" },
       { id: "summarize", label: "Summarizing to 3 chapters", status: "pending" },
     ])
+    window.history.replaceState(null, '', '/')
     toast.success("Started new session")
   }
 
@@ -310,8 +320,9 @@ export default function Home() {
 
     setIsLoading(true)
     setError(null)
+    window.history.pushState(null, '', '/processing')
     setSteps([
-      { id: "scrape", label: "Scraping blog content", status: "pending" },
+      { id: "scrape", label: `Extracting content from the blog`, status: "pending" },
       { id: "chapters", label: "Generating chapters", status: "pending" },
       { id: "summarize", label: `Summarizing to ${numChapters} chapters`, status: "pending" },
     ])
@@ -403,12 +414,15 @@ export default function Home() {
       setTranslations(getAllCachedTranslations(chapterIds))
       setAudioUrlsState(getAllCachedAudios(chapterIds))
 
+      window.history.pushState(null, '', '/podcast')
+
       setTimeout(() => {
         setSteps([])
       }, 500)
     } catch (err) {
       console.error("Error in processing:", err)
       setError(err instanceof Error ? err.message : "An error occurred")
+      window.history.pushState(null, '', '/')
     } finally {
       setIsLoading(false)
     }
@@ -424,11 +438,10 @@ export default function Home() {
         <LandingPage onGetStarted={() => setShowLanding(false)} />
       ) : isLoading && chapters.length === 0 ? (
         <div className="relative flex min-h-screen items-center justify-center px-4 py-12 overflow-hidden">
-          {/* Prismatic Burst Background */}
           <div className="fixed inset-0 z-0 w-full h-full">
             <PrismaticBurst />
           </div>
-          <LoadingScreen steps={steps} />
+          <LoadingScreen steps={steps} url={url} />
         </div>
       ) : !isLoading && chapters.length === 0 ? (
         <div className="relative flex min-h-screen items-center justify-center px-4 py-12 overflow-hidden">

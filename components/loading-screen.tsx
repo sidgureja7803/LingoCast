@@ -13,9 +13,10 @@ interface LoadingStep {
 
 interface LoadingScreenProps {
   steps: LoadingStep[]
+  url?: string
 }
 
-export function LoadingScreen({ steps }: LoadingScreenProps) {
+export function LoadingScreen({ steps, url }: LoadingScreenProps) {
   return (
     <div className="relative z-10 w-full max-w-md mx-auto px-4 sm:px-0">
       <div className="space-y-6 sm:space-y-8">
@@ -26,6 +27,11 @@ export function LoadingScreen({ steps }: LoadingScreenProps) {
           <p className="text-xs sm:text-sm text-muted-foreground">
             This may take a few moments
           </p>
+          {url && (
+            <p className="text-xs sm:text-xs text-muted-foreground mt-1 truncate">
+              Extracting from: <span className="font-medium text-primary">{url.replace(/^https?:\/\//, '')}</span>
+            </p>
+          )}
         </div>
 
         <div className="space-y-2 sm:space-y-3">
@@ -52,10 +58,10 @@ export function LoadingScreen({ steps }: LoadingScreenProps) {
                     step.status === "completed"
                       ? "text-foreground"
                       : step.status === "processing"
-                      ? "text-foreground"
-                      : step.status === "error"
-                      ? "text-destructive"
-                      : "text-muted-foreground"
+                        ? "text-foreground"
+                        : step.status === "error"
+                          ? "text-destructive"
+                          : "text-muted-foreground"
                   )}
                 >
                   {step.label}
