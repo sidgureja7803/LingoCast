@@ -27,7 +27,7 @@ import { LoadingScreen } from "@/components/loading-screen"
 import { ProcessingStatus } from "@/components/processing-status"
 import { ChapterCard } from "@/components/chapter-card"
 import { PodcastFlow } from "@/components/podcast-flow"
-import { Loader2, Link as LinkIcon, Sparkles, ArrowRight } from "lucide-react"
+import { Loader2, Link as LinkIcon, Sparkles, ArrowRight, Globe, Mic, Zap } from "lucide-react"
 import { toast } from "sonner"
 import {
   getCachedChapters,
@@ -432,74 +432,125 @@ export default function Home() {
         </div>
       ) : !isLoading && chapters.length === 0 ? (
         <div className="relative flex min-h-screen items-center justify-center px-4 py-12 overflow-hidden">
-          {/* Light Rays Background */}
-          <div className="fixed inset-0 z-0">
-            <LightRays className="w-full h-full" />
+          {/* Refined ambient background */}
+          <div className="fixed inset-0 -z-10">
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 dark:from-gray-950 dark:via-slate-950 dark:to-gray-950" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(59,130,246,0.08),transparent)] dark:bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(59,130,246,0.12),transparent)]" />
+            <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-[radial-gradient(ellipse_80%_50%_at_50%_100%,rgba(99,102,241,0.04),transparent)] dark:bg-[radial-gradient(ellipse_80%_50%_at_50%_100%,rgba(99,102,241,0.06),transparent)]" />
           </div>
-          <div className="relative z-10 w-full max-w-2xl mx-auto px-4 sm:px-6">
-            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-              {/* Title and Paragraph */}
-              <div className="space-y-2 text-center">
-                <h1 className="text-3xl sm:text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
-                  Multilingual Podcast Generator
-                </h1>
-                <p className="text-xs sm:text-sm text-muted-foreground md:text-base">
-                  Turn any blog into a multilingual podcast in seconds
-                </p>
+
+          <div className="relative z-10 w-full max-w-xl mx-auto px-4 sm:px-6">
+            {/* Branding */}
+            <div className="flex flex-col items-center mb-8">
+              <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-blue-500/5 border border-blue-200/50 dark:border-blue-500/15 backdrop-blur-sm mb-6">
+                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
+                  <Mic className="w-3.5 h-3.5 text-white" />
+                </div>
+                <span className="text-sm font-semibold text-blue-700 dark:text-blue-300">LingoCast</span>
               </div>
 
-              {/* Input and Submit */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
-                <div className="relative flex-1">
-                  <LinkIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    type="url"
-                    placeholder="https://example.com/blog-post"
-                    value={url}
-                    onChange={(e) => setUrl(e.target.value)}
-                    disabled={isLoading}
-                    className="h-12 pl-10 text-base"
-                  />
+              <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-center mb-3">
+                <span className="text-gray-900 dark:text-white">Paste a blog URL</span>
+              </h1>
+              <p className="text-base text-gray-500 dark:text-gray-400 text-center max-w-md">
+                We'll extract the content, break it into chapters, and generate a podcast you can translate into 18+ languages.
+              </p>
+            </div>
+
+            {/* Form Card */}
+            <div className="rounded-2xl border border-gray-200/80 dark:border-gray-800 bg-white/70 dark:bg-gray-900/50 backdrop-blur-xl shadow-xl shadow-blue-500/5 p-6 sm:p-8">
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {/* URL Input */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Blog URL</label>
+                  <div className="relative">
+                    <LinkIcon className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                    <Input
+                      type="url"
+                      placeholder="https://example.com/blog-post"
+                      value={url}
+                      onChange={(e) => setUrl(e.target.value)}
+                      disabled={isLoading}
+                      className="h-13 pl-11 text-base rounded-xl border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all"
+                    />
+                  </div>
                 </div>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div className="w-full sm:w-auto flex-1 sm:flex-initial">
-                      <Select value={chapterCount} onValueChange={setChapterCount} disabled={isLoading}>
-                        <SelectTrigger className="h-12 w-full sm:w-20 px-3 py-0 [&[data-size=default]]:!h-12">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-                            <SelectItem key={num} value={num.toString()}>
-                              {num}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Select chapters</p>
-                  </TooltipContent>
-                </Tooltip>
-                <Button
-                  type="submit"
-                  disabled={isLoading || !url.trim()}
-                  className="h-12 w-full sm:w-12 p-0 shrink-0"
-                >
-                  {isLoading ? (
-                    <Loader2 className="h-5 w-5 animate-spin" />
-                  ) : (
-                    <ArrowRight className="h-5 w-5" />
-                  )}
-                </Button>
-              </div>
-            </form>
-            {error && (
-              <div className="mt-4 rounded-md border border-destructive/50 bg-destructive/10 px-3 py-2">
-                <p className="text-sm font-medium text-destructive">{error}</p>
-              </div>
-            )}
+
+                {/* Chapter Count + Submit */}
+                <div className="flex items-end gap-3">
+                  <div className="space-y-2 flex-shrink-0">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Chapters</label>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div>
+                          <Select value={chapterCount} onValueChange={setChapterCount} disabled={isLoading}>
+                            <SelectTrigger className="h-13 w-24 px-3 rounded-xl border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 [&[data-size=default]]:!h-13">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                                <SelectItem key={num} value={num.toString()}>
+                                  {num} {num === 1 ? "chapter" : "chapters"}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Number of podcast chapters to generate</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </div>
+
+                  <Button
+                    type="submit"
+                    disabled={isLoading || !url.trim()}
+                    className="flex-1 h-13 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 text-base gap-2"
+                  >
+                    {isLoading ? (
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                    ) : (
+                      <>
+                        Generate Podcast
+                        <ArrowRight className="h-4 w-4" />
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </form>
+
+              {error && (
+                <div className="mt-4 rounded-xl border border-red-200 dark:border-red-800/50 bg-red-50/80 dark:bg-red-950/20 px-4 py-3">
+                  <p className="text-sm font-medium text-red-600 dark:text-red-400">{error}</p>
+                </div>
+              )}
+            </div>
+
+            {/* Feature pills */}
+            <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
+              {[
+                { icon: Globe, label: "18+ Languages" },
+                { icon: Mic, label: "Studio Audio" },
+                { icon: Zap, label: "AI-Powered" },
+              ].map((item, i) => (
+                <div key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-100/80 dark:bg-gray-800/50 text-xs font-medium text-gray-500 dark:text-gray-400">
+                  <item.icon className="h-3 w-3" />
+                  {item.label}
+                </div>
+              ))}
+            </div>
+
+            {/* Back to landing link */}
+            <div className="text-center mt-6">
+              <button
+                type="button"
+                onClick={() => setShowLanding(true)}
+                className="text-sm text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+              >
+                ← Back to home
+              </button>
+            </div>
           </div>
         </div>
       ) : (
