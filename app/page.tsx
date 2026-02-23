@@ -444,66 +444,65 @@ export default function Home() {
           <LoadingScreen steps={steps} url={url} />
         </div>
       ) : !isLoading && chapters.length === 0 ? (
-        <div className="relative flex min-h-screen items-center justify-center px-4 py-12 overflow-hidden">
+        <div className="relative flex min-h-screen items-center justify-center px-4 py-12 overflow-hidden bg-[#050505]">
           {/* Refined ambient background */}
-          <div className="fixed inset-0 -z-10">
-            <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 dark:from-gray-950 dark:via-slate-950 dark:to-gray-950" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(59,130,246,0.08),transparent)] dark:bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(59,130,246,0.12),transparent)]" />
-            <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-[radial-gradient(ellipse_80%_50%_at_50%_100%,rgba(99,102,241,0.04),transparent)] dark:bg-[radial-gradient(ellipse_80%_50%_at_50%_100%,rgba(99,102,241,0.06),transparent)]" />
+          <div className="fixed inset-0 -z-10 bg-[#050505]">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(204,255,0,0.03),transparent_40%)]" />
+            <div className="absolute bottom-0 w-full h-px bg-gradient-to-r from-transparent via-primary/10 to-transparent" />
           </div>
 
           <div className="relative z-10 w-full max-w-xl mx-auto px-4 sm:px-6">
             {/* Branding */}
-            <div className="flex flex-col items-center mb-8">
-              <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-blue-500/5 border border-blue-200/50 dark:border-blue-500/15 backdrop-blur-sm mb-6">
-                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
-                  <Mic className="w-3.5 h-3.5 text-white" />
+            <div className="flex flex-col items-center mb-10">
+              <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full border border-border shadow-[0_0_15px_rgba(204,255,0,0.05)] bg-card mb-6 group cursor-default">
+                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-[0_0_10px_rgba(204,255,0,0.3)]">
+                  <Mic className="w-4 h-4 text-primary-foreground" />
                 </div>
-                <span className="text-sm font-semibold text-blue-700 dark:text-blue-300">LingoCast</span>
+                <span className="text-sm font-semibold tracking-wider uppercase text-primary">LingoCast</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-center mb-3">
-                <span className="text-gray-900 dark:text-white">Paste a blog URL</span>
+              <h1 className="text-4xl sm:text-6xl font-black tracking-tighter uppercase text-center mb-4 text-foreground">
+                Paste a Blog URL
               </h1>
-              <p className="text-base text-gray-500 dark:text-gray-400 text-center max-w-md">
+              <p className="text-base text-muted-foreground font-medium text-center max-w-md">
                 We'll extract the content, break it into chapters, and generate a podcast you can translate into 18+ languages.
               </p>
             </div>
 
             {/* Form Card */}
-            <div className="rounded-2xl border border-gray-200/80 dark:border-gray-800 bg-white/70 dark:bg-gray-900/50 backdrop-blur-xl shadow-xl shadow-blue-500/5 p-6 sm:p-8">
+            <div className="rounded-none border-2 border-border bg-card shadow-[4px_4px_0px_rgba(204,255,0,0.1)] hover:border-primary/50 transition-colors p-6 sm:p-10">
               <form onSubmit={handleSubmit} className="space-y-5">
                 {/* URL Input */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Blog URL</label>
+                <div className="space-y-3">
+                  <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Blog URL</label>
                   <div className="relative">
-                    <LinkIcon className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                    <LinkIcon className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-primary" />
                     <Input
                       type="url"
                       placeholder="https://example.com/blog-post"
                       value={url}
                       onChange={(e) => setUrl(e.target.value)}
                       disabled={isLoading}
-                      className="h-13 pl-11 text-base rounded-xl border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all"
+                      className="h-14 pl-12 text-base rounded-none border-border bg-background focus:ring-0 focus:border-primary transition-all font-mono"
                     />
                   </div>
                 </div>
 
                 {/* Chapter Count + Submit */}
-                <div className="flex items-end gap-3">
-                  <div className="space-y-2 flex-shrink-0">
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Chapters</label>
+                <div className="flex flex-col sm:flex-row items-end gap-4 mt-6">
+                  <div className="space-y-3 w-full sm:w-auto flex-shrink-0">
+                    <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Chapters</label>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <div>
                           <Select value={chapterCount} onValueChange={setChapterCount} disabled={isLoading}>
-                            <SelectTrigger className="h-13 w-24 px-3 rounded-xl border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 [&[data-size=default]]:!h-13">
+                            <SelectTrigger className="h-14 w-full sm:w-32 px-4 rounded-none border-border bg-background hover:bg-muted transition-colors font-mono">
                               <SelectValue />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className="rounded-none border-border">
                               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-                                <SelectItem key={num} value={num.toString()}>
-                                  {num} {num === 1 ? "chapter" : "chapters"}
+                                <SelectItem key={num} value={num.toString()} className="font-mono">
+                                  {num} {num === 1 ? "CH" : "CHs"}
                                 </SelectItem>
                               ))}
                             </SelectContent>
@@ -519,35 +518,35 @@ export default function Home() {
                   <Button
                     type="submit"
                     disabled={isLoading || !url.trim()}
-                    className="flex-1 h-13 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 text-base gap-2"
+                    className="flex-1 w-full h-14 rounded-none bg-primary hover:bg-primary/90 text-primary-foreground font-bold uppercase tracking-widest transition-transform hover:-translate-y-0.5 shadow-[4px_4px_0px_rgba(204,255,0,0.2)] hover:shadow-none translate-x-0 text-base"
                   >
                     {isLoading ? (
-                      <Loader2 className="h-5 w-5 animate-spin" />
+                      <Loader2 className="h-5 w-5 animate-spin mx-auto" />
                     ) : (
-                      <>
-                        Generate Podcast
-                        <ArrowRight className="h-4 w-4" />
-                      </>
+                      <span className="flex items-center justify-center gap-3">
+                        Synthesize
+                        <ArrowRight className="h-5 w-5" />
+                      </span>
                     )}
                   </Button>
                 </div>
               </form>
 
               {error && (
-                <div className="mt-4 rounded-xl border border-red-200 dark:border-red-800/50 bg-red-50/80 dark:bg-red-950/20 px-4 py-3">
-                  <p className="text-sm font-medium text-red-600 dark:text-red-400">{error}</p>
+                <div className="mt-6 border border-destructive/50 bg-destructive/10 px-5 py-4">
+                  <p className="text-sm font-bold uppercase tracking-widest text-destructive">{error}</p>
                 </div>
               )}
             </div>
 
             {/* Feature pills */}
-            <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
+            <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
               {[
                 { icon: Globe, label: "18+ Languages" },
                 { icon: Mic, label: "Studio Audio" },
                 { icon: Zap, label: "AI-Powered" },
               ].map((item, i) => (
-                <div key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-100/80 dark:bg-gray-800/50 text-xs font-medium text-gray-500 dark:text-gray-400">
+                <div key={i} className="inline-flex items-center gap-2 px-4 py-2 border border-border bg-card text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors">
                   <item.icon className="h-3 w-3" />
                   {item.label}
                 </div>
@@ -555,13 +554,13 @@ export default function Home() {
             </div>
 
             {/* Back to landing link */}
-            <div className="text-center mt-6">
+            <div className="text-center mt-8">
               <button
                 type="button"
                 onClick={() => setShowLanding(true)}
-                className="text-sm text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                className="text-sm font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors"
               >
-                ← Back to home
+                ← Back
               </button>
             </div>
           </div>

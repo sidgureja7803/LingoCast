@@ -94,11 +94,11 @@ interface MergeGroup {
 }
 
 const CHAPTER_COLORS = [
-  { bg: "bg-blue-50 dark:bg-blue-950/30", border: "border-blue-300 dark:border-blue-700", label: "text-blue-700 dark:text-blue-300" },
-  { bg: "bg-purple-50 dark:bg-purple-950/30", border: "border-purple-300 dark:border-purple-700", label: "text-purple-700 dark:text-purple-300" },
-  { bg: "bg-green-50 dark:bg-green-950/30", border: "border-green-300 dark:border-green-700", label: "text-green-700 dark:text-green-300" },
-  { bg: "bg-orange-50 dark:bg-orange-950/30", border: "border-orange-300 dark:border-orange-700", label: "text-orange-700 dark:text-orange-300" },
-  { bg: "bg-pink-50 dark:bg-pink-950/30", border: "border-pink-300 dark:border-pink-700", label: "text-pink-700 dark:text-pink-300" },
+  { bg: "bg-transparent", border: "border-primary/30", label: "text-primary border-primary/30" },
+  { bg: "bg-transparent", border: "border-primary/40", label: "text-primary border-primary/40" },
+  { bg: "bg-transparent", border: "border-primary/50", label: "text-primary border-primary/50" },
+  { bg: "bg-transparent", border: "border-primary/60", label: "text-primary border-primary/60" },
+  { bg: "bg-transparent", border: "border-primary/70", label: "text-primary border-primary/70" },
 ]
 
 const LANGUAGES = [
@@ -118,7 +118,7 @@ function ChapterNode({
     translations: Record<string, ChapterTranslation>
     audioUrls: Record<string, string>
     onTranslate: (chapterId: string, language: string) => Promise<void>
-    onGenerateAudio: (chapterId: string, language: string) => Promise<string>
+    onGenerateAudio: (chapterId: string, language: string, text: string) => Promise<string>
   }
 }) {
 
@@ -204,10 +204,10 @@ function ChapterNode({
           />
         )}
         <Card className={cn(
-          "w-[280px] sm:w-72 p-3 sm:p-4 border-2 shadow-lg cursor-pointer hover:shadow-xl transition-shadow relative bg-card",
+          "w-[280px] sm:w-72 p-0 border border-border shadow-[4px_4px_0px_rgba(204,255,0,0.1)] hover:border-primary transition-all relative bg-card rounded-none",
           isGeneratingAudio && "border-transparent"
         )}>
-          <div className="space-y-3">
+          <div className="p-3 sm:p-4 space-y-3">
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1 min-w-0">
                 <h3 className="font-semibold text-sm truncate">{displayContent.title}</h3>
@@ -257,32 +257,39 @@ function ChapterNode({
             </div>
             <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
               <DrawerTrigger asChild>
-                <Button variant="outline" className="w-full" size="sm">
-                  <FileText className="h-3 w-3 mr-2" />
+                <Button variant="outline" className="w-full rounded-none border-border hover:border-primary hover:text-primary transition-all font-bold uppercase tracking-widest" size="sm">
+                  <FileText className="h-4 w-4 mr-3" />
                   View Content
                 </Button>
               </DrawerTrigger>
-              <DrawerContent className="max-h-[85vh] sm:max-h-[80vh]">
-                <DrawerHeader className="px-4 sm:px-6">
-                  <DrawerTitle className="text-base sm:text-lg">{displayContentForDrawer.title}</DrawerTitle>
-                  <DrawerDescription className="text-xs sm:text-sm">
-                    {chapter.wordCount} words • Language: {LANGUAGES.find(l => l.code === selectedLanguage)?.name || selectedLanguage.toUpperCase()}
+              <DrawerContent className="max-h-[85vh] sm:max-h-[80vh] bg-background border-t border-primary/20">
+                <DrawerHeader className="px-4 sm:px-8 mt-4">
+                  <DrawerTitle className="text-3xl sm:text-4xl font-black uppercase tracking-tighter text-foreground">
+                    {displayContentForDrawer.title}
+                  </DrawerTitle>
+                  <DrawerDescription className="text-xs sm:text-sm uppercase tracking-widest font-bold text-primary mt-2">
+                    {chapter.wordCount} words  //  Language: {LANGUAGES.find(l => l.code === selectedLanguage)?.name || selectedLanguage.toUpperCase()}
                   </DrawerDescription>
                 </DrawerHeader>
-                <div className="px-4 sm:px-6 pb-4 overflow-y-auto">
-                  <div className="prose prose-sm max-w-none dark:prose-invert">
-                    <p className="whitespace-pre-wrap text-xs sm:text-sm leading-relaxed">
+                <div className="px-4 sm:px-8 pb-4 mt-6 overflow-y-auto">
+                  <div className="relative p-6 sm:p-8 border border-border bg-card shadow-[4px_4px_0px_rgba(204,255,0,0.1)]">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/50 to-transparent" />
+                    <p className="font-mono text-sm sm:text-base leading-loose whitespace-pre-wrap text-foreground/90">
                       {displayContentForDrawer.textContent}
                     </p>
                   </div>
                 </div>
-                <DrawerFooter className="px-4 sm:px-6">
-                  <div className="flex flex-wrap gap-2">
+                <DrawerFooter className="px-4 sm:px-8 mb-6">
+                  <div className="flex flex-wrap gap-3 mb-4">
                     {LANGUAGES.map((lang) => (
                       <Button
                         key={lang.code}
                         variant={selectedLanguage === lang.code ? "default" : "outline"}
                         size="sm"
+                        className={cn(
+                          "rounded-none font-bold uppercase tracking-widest border-border transition-all",
+                          selectedLanguage === lang.code ? "bg-primary text-primary-foreground hover:bg-primary/90" : "hover:border-primary hover:text-primary"
+                        )}
                         onClick={() => {
                           handleLanguageSelect(lang.code)
                         }}
@@ -290,14 +297,14 @@ function ChapterNode({
                       >
                         {lang.name}
                         {translations[lang.code] && (
-                          <Badge variant="secondary" className="ml-2 text-xs">
+                          <Badge variant="secondary" className="ml-2 bg-background text-foreground border border-border">
                             ✓
                           </Badge>
                         )}
                       </Button>
                     ))}
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-4">
                     <Button
                       variant="default"
                       onClick={async () => {
@@ -307,27 +314,27 @@ function ChapterNode({
                         }
                       }}
                       disabled={isGeneratingAudio || !!currentAudioUrls[selectedLanguage]}
-                      className="flex-1"
+                      className="flex-1 rounded-none font-black uppercase tracking-widest bg-primary text-primary-foreground hover:bg-primary/90 shadow-[4px_4px_0px_rgba(204,255,0,0.2)] hover:shadow-none hover:translate-y-0.5 hover:translate-x-0.5 transition-all text-sm sm:text-base py-6"
                     >
                       {isGeneratingAudio ? (
                         <>
-                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                          Generating...
+                          <Loader2 className="h-5 w-5 mr-3 animate-spin" />
+                          Synthesizing...
                         </>
                       ) : currentAudioUrls[selectedLanguage] ? (
                         <>
-                          <Play className="h-4 w-4 mr-2" />
-                          Audio Available
+                          <Play className="h-5 w-5 mr-3" />
+                          Audio Ready
                         </>
                       ) : (
                         <>
-                          <Volume2 className="h-4 w-4 mr-2" />
+                          <Volume2 className="h-5 w-5 mr-3" />
                           Generate Audio
                         </>
                       )}
                     </Button>
                     <DrawerClose asChild>
-                      <Button variant="outline" className="flex-1">Close</Button>
+                      <Button variant="outline" className="rounded-none border-border hover:bg-accent font-bold uppercase tracking-widest py-6 px-8">Close</Button>
                     </DrawerClose>
                   </div>
                 </DrawerFooter>
@@ -392,8 +399,8 @@ function AudioNode({
           <DialogTrigger asChild>
             <button
               className={cn(
-                "relative w-16 h-16 rounded-full border border-border bg-card shadow-sm transition-all hover:shadow-md hover:scale-105 cursor-pointer",
-                data.isSelected && "ring-2 ring-primary ring-offset-2"
+                "relative w-16 h-16 rounded-none border border-border bg-background shadow-[2px_2px_0px_rgba(204,255,0,0.15)] transition-all hover:border-primary hover:translate-x-[1px] cursor-pointer",
+                data.isSelected && "ring-2 ring-primary ring-offset-2 ring-offset-background"
               )}
               onClick={(e) => {
                 // Don't open dialog if clicking checkbox area
@@ -407,7 +414,7 @@ function AudioNode({
             >
               {/* Language square in center */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-8 h-8 bg-muted rounded flex items-center justify-center border border-border">
+                <div className="w-8 h-8 bg-muted rounded-none flex items-center justify-center border border-border">
                   <span className="text-foreground text-xs font-semibold">{data.language.toUpperCase()}</span>
                 </div>
               </div>
@@ -547,7 +554,7 @@ function MergeNode({ data }: { data: { group: MergeGroup; onRemoveGroup: (groupI
       <Handle type="target" position={Position.Top} className="w-3 h-3" />
       <Handle type="source" position={Position.Bottom} className="w-3 h-3" />
 
-      <Card className="w-64 p-4 border shadow-sm bg-card bg-green-500/10 border-green-500/30">
+      <Card className="w-64 p-4 border border-primary bg-card/50 shadow-[4px_4px_0px_rgba(204,255,0,0.1)] rounded-none">
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -591,7 +598,7 @@ function MergeNode({ data }: { data: { group: MergeGroup; onRemoveGroup: (groupI
           </div>
           <div className="flex flex-col gap-1">
             {data.group.audioNodes.map((audio, idx) => (
-              <div key={audio.nodeId} className="text-xs bg-white dark:bg-gray-800 p-1 rounded">
+              <div key={audio.nodeId} className="text-xs bg-background p-1 border border-border">
                 {idx + 1}. Chapter {audio.chapterId.split('-').pop()}
               </div>
             ))}
@@ -605,13 +612,13 @@ function MergeNode({ data }: { data: { group: MergeGroup; onRemoveGroup: (groupI
 function ChapterGroupNode({ data }: { data: { chapterNumber: number; chapterTitle: string; audioCount: number; color: typeof CHAPTER_COLORS[0] } }) {
   return (
     <div className={cn(
-      "w-full h-full rounded-xl border-2 border-dashed",
+      "w-full h-full rounded-none border border-dashed",
       data.color.bg,
       data.color.border
     )}>
       <div className={cn(
-        "absolute -top-3 left-4 px-3 py-1 rounded-full text-xs font-bold",
-        "bg-background border-2",
+        "absolute -top-3 left-4 px-3 py-0.5 text-xs font-bold uppercase tracking-widest backdrop-blur-sm",
+        "bg-background border",
         data.color.border,
         data.color.label
       )}>
@@ -1229,7 +1236,7 @@ export function PodcastFlow({
 
       {selectedAudioNodes.size > 0 && (
         <div className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 z-10 w-[calc(100%-2rem)] sm:w-auto max-w-[90vw]">
-          <Card className="p-3 sm:p-4 shadow-xl border-2 border-blue-500 bg-background/95 backdrop-blur">
+          <Card className="p-3 sm:p-4 shadow-[4px_4px_0px_rgba(204,255,0,0.2)] border border-primary bg-background rounded-none">
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
               <div className="flex flex-col gap-1 flex-1 sm:flex-initial">
                 <p className="text-xs sm:text-sm font-semibold">
